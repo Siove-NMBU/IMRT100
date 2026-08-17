@@ -22,7 +22,7 @@ song_words     = [ 'Lis',    'a', ' gikk',  ' til',   ' sko',  'len.',' Tripp','
 song = []
 
 # Put pitch, durations and words in same list
-for i in range(2):#len(song_pitches)):
+for i in range(len(song_pitches)):
     song.append([song_pitches[i], song_durations[i], song_words[i]])
 
 
