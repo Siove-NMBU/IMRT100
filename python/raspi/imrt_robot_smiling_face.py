@@ -86,8 +86,8 @@ while window:
         r_eye_offset = random.random()
 
     # draw eyes
-    draw_eye(int( (win_x + eye_spacing) / 2, win_y * 7 / 18), (160, 200), 20, l_eye_angle, l_eye_offset)
-    draw_eye(int( (win_x - eye_spacing) / 2, win_y * 7 / 18), (160, 200), 20, r_eye_angle, r_eye_offset)
+    draw_eye(( (win_x + eye_spacing) // 2, win_y * 7 // 18), (160, 200), 20, l_eye_angle, l_eye_offset)
+    draw_eye(( (win_x - eye_spacing) // 2, win_y * 7 // 18), (160, 200), 20, r_eye_angle, r_eye_offset)
 
     # update display
     pygame.display.update()
