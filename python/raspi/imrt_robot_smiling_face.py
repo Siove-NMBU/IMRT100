@@ -67,14 +67,14 @@ while window:
 
     # set background color
     surface.fill(GREEN)
-    
+
     # make mouth shake by moving it slightly at random
     mouth_x = (win_x - mouth.get_rect().width) / 2 + random.randint(-4, 4)
     mouth_y = win_y * 11 / 18 + random.randint(-4, 4)
-    
+
     # draw mouth
     surface.blit(mouth, (mouth_x, mouth_y))
-    
+
     # change left eye values at random
     if (random.randint(0, 200) == 100):
         l_eye_angle = random.random() * 2 * pi
@@ -104,4 +104,3 @@ while window:
     # sleep for a while
     clock.tick(40)
 
-    

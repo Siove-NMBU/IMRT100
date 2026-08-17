@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-LED_PIN = 2
+LED_PIN = 23
 
 # BCM pin naming
 GPIO.setmode(GPIO.BCM)
@@ -15,7 +15,7 @@ GPIO.setup(LED_PIN, GPIO.OUT)
 try:
     # Loop until user terminates program
     while True:
-        
+
         # Switch LED on
         GPIO.output(LED_PIN, GPIO.HIGH)
         #print("LED on")
@@ -25,7 +25,7 @@ try:
         GPIO.output(LED_PIN, GPIO.LOW)
         #print("LED off")
         time.sleep(1)
-        
+
 except KeyboardInterrupt:
     print("Terminated by user")
 
