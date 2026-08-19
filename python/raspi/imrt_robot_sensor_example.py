@@ -9,8 +9,8 @@ import sys
 
 
 # We want our program to send commands at 10 Hz (10 commands per second)
-execution_frequency = 10 #Hz
-execution_period = 1. / execution_frequency #seconds
+execution_frequency = 10  # Hz
+execution_period = 1. / execution_frequency  # Seconds
 
 
 # Create motor serial object
@@ -24,7 +24,6 @@ except:
     print("Could not open port. Is your robot connected?\nExiting program")
     sys.exit()
 
-    
 # Start serial receive thread
 motor_serial.run()
 
@@ -33,8 +32,7 @@ motor_serial.run()
 # The motor_serial object will inform us when it's time to exit the program
 # (say if the program is terminated by the user)
 print("Entering loop. Ctrl+c to terminate")
-while not motor_serial.shutdown_now :
-
+while not motor_serial.shutdown_now:
 
     ###############################################################
     # This is the start of our loop. Your code goes below.        #
@@ -50,43 +48,35 @@ while not motor_serial.shutdown_now :
     # V                                                           #
     ###############################################################
 
-
     # Get the current time
     iteration_start_time = time.time()
-
-
 
     # Get and print readings from distance sensors
     dist_1 = motor_serial.get_dist_1()
     dist_2 = motor_serial.get_dist_2()
-    print("Dist 1:", dist_1, "   Dist 2:", dist_2)
-
-    
+    dist_3 = motor_serial.get_dist_3()
+    dist_4 = motor_serial.get_dist_4()
+    print("Dist 1:", dist_1, "   Dist 2:", dist_2, '\n')
+    print("Dist 3:", dist_3, "   Dist 4:", dist_4)
 
     # Calculate commands for each motor using sensor readings
     # In this simple example we will multiply each sensor reading
     # with a constant to obtain our commands
-    gain = 8
+    gain = 2
     speed_motor_1 = dist_1 * gain
     speed_motor_2 = dist_2 * gain
-
-
 
     # Send commands to motor
     # Max speed is 400.
     # E.g.a command of 500 will result in the same speed as if the command was 400
     motor_serial.send_command(speed_motor_1, speed_motor_2)
 
-
-
     # Here we pause the execution of the program for the apropriate amout of time
     # so that our loop executes at the frequency specified by the variable execution_frequency
-    iteration_end_time = time.time() # current time
-    iteration_duration = iteration_end_time - iteration_start_time # time spent executing code
+    iteration_end_time = time.time()  # current time
+    iteration_duration = iteration_end_time - iteration_start_time  # time spent executing code
     if (iteration_duration < execution_period):
         time.sleep(execution_period - iteration_duration)
-
-
 
     ###############################################################
     #                                                           A #
@@ -97,10 +87,6 @@ while not motor_serial.shutdown_now :
     # execution continus at the start of our loop                 #
     ###############################################################
     ###############################################################
-
-
-
-
 
 # motor_serial has told us that its time to exit
 # we have now exited the loop
