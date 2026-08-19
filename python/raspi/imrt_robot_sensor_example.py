@@ -7,6 +7,34 @@ import signal
 import time
 import sys
 
+# ## Speaker shenanigans
+import RPi.GPIO as GPIO
+
+BUZZ_PIN = 23
+DUTY = 10
+
+# BCM pin naming
+GPIO.setmode(GPIO.BCM)
+
+# Turn off GPIO warnings
+GPIO.setwarnings(False)
+
+# Set buzzer pin to output
+GPIO.setup(BUZZ_PIN, GPIO.OUT)
+
+p = GPIO.PWM(BUZZ_PIN, 250)  # channel=12 frequency=50Hz
+p.start(0)
+
+
+def play_beep(po, freq, duration=0.2, duty=DUTY):
+    po.ChangeDutyCycle(duty)
+    po.ChangeFrequency(freq)
+    time.sleep(duration)
+    po.ChangeDutyCycle(0)
+    time.sleep(duration / 2)
+
+# ##
+
 
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
@@ -65,6 +93,8 @@ while not motor_serial.shutdown_now:
     speed_motor_1 = dist_2 * gain
     speed_motor_2 = dist_1 * gain
 
+    play_beep(p, 255 - dist_3)
+
     # Send commands to motor
     # Max speed is 400.
     # E.g.a command of 500 will result in the same speed as if the command was 400
@@ -90,4 +120,6 @@ while not motor_serial.shutdown_now:
 # motor_serial has told us that its time to exit
 # we have now exited the loop
 # It's only polite to say goodbye
+
+GPIO.cleanup()
 print("Goodbye")
