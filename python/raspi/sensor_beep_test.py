@@ -14,7 +14,7 @@ GPIO.setwarnings(True)
 # Set buzzer pin to output
 GPIO.setup(BUZZ_PIN, GPIO.OUT)
 
-p = GPIO.PWM(BUZZ_PIN, 250)
+p = GPIO.PWM(BUZZ_PIN, 250.0)
 p.start(0)
 
 # Test
