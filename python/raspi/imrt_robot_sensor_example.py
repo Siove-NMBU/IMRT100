@@ -27,7 +27,7 @@ p.start(0)
 
 
 def play_beep(po, freq, duration=0.2, duty=DUTY):
-    print(f'Trying to play beep at {freq}. Duration {duration}, duty cycle {duty}')
+    print(f'Trying to play beep at {freq}Hz. Duration {duration}, duty cycle {duty}')
     po.ChangeDutyCycle(duty)
     po.ChangeFrequency(freq)
     time.sleep(duration)
@@ -56,6 +56,11 @@ except:
 # Start serial receive thread
 motor_serial.run()
 
+# Test Beep
+p.ChangeDutyCycle(DUTY)
+p.ChangeFrequency(330)
+time.sleep(0.5)
+p.ChangeDutyCycle(0)
 
 # Now we will enter a loop that will keep looping until the program terminates
 # The motor_serial object will inform us when it's time to exit the program
@@ -94,7 +99,7 @@ while not motor_serial.shutdown_now:
     speed_motor_1 = dist_2 * gain
     speed_motor_2 = dist_1 * gain
 
-    play_beep(p, 275 - dist_3)  # Min value is 20 Hz
+    play_beep(p, dist_3)  # Min value is 20 Hz
 
     # Send commands to motor
     # Max speed is 400.
@@ -124,3 +129,4 @@ while not motor_serial.shutdown_now:
 
 GPIO.cleanup()
 print("Goodbye")
+p.stop()
