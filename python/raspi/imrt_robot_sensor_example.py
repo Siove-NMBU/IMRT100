@@ -62,8 +62,8 @@ while not motor_serial.shutdown_now:
     # In this simple example we will multiply each sensor reading
     # with a constant to obtain our commands
     gain = 1
-    speed_motor_1 = dist_1 * gain
-    speed_motor_2 = dist_2 * gain
+    speed_motor_1 = dist_2 * gain
+    speed_motor_2 = dist_1 * gain
 
     # Send commands to motor
     # Max speed is 400.
