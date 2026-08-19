@@ -14,12 +14,12 @@ GPIO.setwarnings(False)
 # Set buzzer pin to output
 GPIO.setup(BUZZ_PIN, GPIO.OUT)
 
-p = GPIO.PWM(BUZZ_PIN, 250)  # channel=12 frequency=50Hz
+p = GPIO.PWM(BUZZ_PIN, 250)
 p.start(0)
 
 # Test
 p.ChangeDutyCycle(DUTY)
-p.ChangeFrequency(440)
+p.ChangeFrequency(32)
 time.sleep(2)
 p.ChangeDutyCycle(0)
 time.sleep(1)
