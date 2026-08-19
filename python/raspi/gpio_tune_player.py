@@ -38,6 +38,13 @@ GPIO.setup(BUZZ_PIN, GPIO.OUT)
 p = GPIO.PWM(BUZZ_PIN, 250) # channel=12 frequency=50Hz
 p.start(0)
 
+# Test
+p.ChangeDutyCycle(DUTY)
+p.ChangeFrequency(c[0])
+time.sleep(WHOLE/2)
+p.ChangeDutyCycle(0)
+time.sleep(HALF/2)
+
 try:
     # Loop until user terminates program
 
@@ -51,7 +58,6 @@ try:
     # Print a 'newline'
     print('\n')
 
-        
 except KeyboardInterrupt:
     print("Terminated by user")
 
