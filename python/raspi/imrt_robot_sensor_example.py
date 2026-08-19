@@ -61,7 +61,7 @@ while not motor_serial.shutdown_now:
     # Calculate commands for each motor using sensor readings
     # In this simple example we will multiply each sensor reading
     # with a constant to obtain our commands
-    gain = 2
+    gain = 1
     speed_motor_1 = dist_1 * gain
     speed_motor_2 = dist_2 * gain
 
