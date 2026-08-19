@@ -27,6 +27,7 @@ p.start(0)
 
 
 def play_beep(po, freq, duration=0.2, duty=DUTY):
+    print(f'Trying to play beep at {freq}. Duration {duration}, duty cycle {duty}')
     po.ChangeDutyCycle(duty)
     po.ChangeFrequency(freq)
     time.sleep(duration)
