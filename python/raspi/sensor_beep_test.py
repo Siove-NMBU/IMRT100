@@ -9,7 +9,7 @@ DUTY = 10
 GPIO.setmode(GPIO.BCM)
 
 # Turn off GPIO warnings
-GPIO.setwarnings(False)
+GPIO.setwarnings(True)
 
 # Set buzzer pin to output
 GPIO.setup(BUZZ_PIN, GPIO.OUT)
