@@ -40,7 +40,7 @@ p.start(0)
 
 # Test
 p.ChangeDutyCycle(DUTY)
-p.ChangeFrequency(c[0])
+p.ChangeFrequency(440)
 time.sleep(3)
 p.ChangeDutyCycle(0)
 time.sleep(HALF/2)
