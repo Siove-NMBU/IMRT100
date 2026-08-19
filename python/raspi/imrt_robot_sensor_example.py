@@ -56,8 +56,7 @@ while not motor_serial.shutdown_now:
     dist_2 = motor_serial.get_dist_2()
     dist_3 = motor_serial.get_dist_3()
     dist_4 = motor_serial.get_dist_4()
-    print("Dist 1:", dist_1, "   Dist 2:", dist_2, '\n')
-    print("Dist 3:", dist_3, "   Dist 4:", dist_4)
+    print("Dist 1:", dist_1, "   Dist 2:", dist_2, "Dist 3:", dist_3, "   Dist 4:", dist_4)
 
     # Calculate commands for each motor using sensor readings
     # In this simple example we will multiply each sensor reading
