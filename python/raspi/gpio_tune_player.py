@@ -41,14 +41,14 @@ p.start(0)
 # Test
 p.ChangeDutyCycle(DUTY)
 p.ChangeFrequency(c[0])
-time.sleep(WHOLE/2)
+time.sleep(3)
 p.ChangeDutyCycle(0)
 time.sleep(HALF/2)
 
 try:
     # Loop until user terminates program
 
-    for note in song:
+    """for note in song:
         print(note[2], end="")
         p.ChangeDutyCycle(DUTY)
         p.ChangeFrequency(note[0])
@@ -56,7 +56,7 @@ try:
         p.ChangeDutyCycle(0)
         time.sleep(note[1]/2)
     # Print a 'newline'
-    print('\n')
+    print('\n')"""
 
 except KeyboardInterrupt:
     print("Terminated by user")
