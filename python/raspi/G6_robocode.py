@@ -28,7 +28,7 @@ def stop_robot(duration):
 
 def drive_robot(direction, duration):
 
-    speed = DRIVING_SPEED * direction
+    speed = DRIVING_SPEED * direction   # Direction is -1 or 1
     iterations = int(duration * 10)
 
     for i in range(iterations):
@@ -80,7 +80,7 @@ while not motor_serial.shutdown_now:
     dist_front = motor_serial.get_dist_3()
     print("Dist left (1):", dist_left, "   Dist center (3):", dist_front, "   Dist right (2):", dist_right)
 
-    # Check if there is an obstacle in the way
+    """# Check if there is an obstacle in the way
     if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
         # There is an obstacle in front of the robot
         # First let's stop the robot for 1 second
@@ -95,7 +95,20 @@ while not motor_serial.shutdown_now:
 
     else:
         # If there is nothing in front of the robot it continus driving forwards
-        drive_robot(FORWARDS, 0.1)
+        drive_robot(FORWARDS, 0.1)"""
+
+    """
+    # Hugging the right wall until maze completion
+    # DEFAULT_SPEED = DRIVING_SPEED
+    # TARGET_DISTANCE_RIGHT = 30
+    if dist_right > TARGET_DISTANCE_RIGHT:
+        turn rightwards
+    else:
+        turn leftwards
+    """
+    DEFAULT_SPEED = 100  # DRIVING_SPEED
+    TARGET_DISTANCE_RIGHT = 30
+    motor_serial.send_command(DEFAULT_SPEED - (dist_right - TARGET_DISTANCE_RIGHT), DEFAULT_SPEED)
 
     # ## LOOP END ## #
 
