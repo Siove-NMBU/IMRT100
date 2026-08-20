@@ -26,13 +26,14 @@ p = GPIO.PWM(BUZZ_PIN, 250)  # channel=12 frequency=50Hz
 p.start(0)
 
 
-def play_beep(po, freq, duration=0.2, duty=DUTY):
+def play_beep(po, freq, duration=0.2, duty=DUTY, single_beep=True):
     print(f'Trying to play beep at {freq}Hz. Duration {duration}, duty cycle {duty}')
     po.ChangeDutyCycle(duty)
     po.ChangeFrequency(freq)
     time.sleep(duration)
-    po.ChangeDutyCycle(0)
-    time.sleep(duration / 2)
+    if single_beep:
+        po.ChangeDutyCycle(0)
+    # time.sleep(duration / 2)
 
 # ##
 
