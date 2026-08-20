@@ -100,7 +100,7 @@ while not motor_serial.shutdown_now:
     speed_motor_1 = dist_2 * gain
     speed_motor_2 = dist_1 * gain
 
-    play_beep(p, dist_3, single_beep=False)  # Min value is 20 Hz
+    play_beep(p, 275 - dist_3, single_beep=False)  # Min value is 20 Hz
 
     # Send commands to motor
     # Max speed is 400.
