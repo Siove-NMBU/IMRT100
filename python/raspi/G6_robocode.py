@@ -108,7 +108,9 @@ while not motor_serial.shutdown_now:
     """
     DEFAULT_SPEED = 100  # DRIVING_SPEED
     TARGET_DISTANCE_RIGHT = 30
-    motor_serial.send_command(DEFAULT_SPEED - (dist_right - TARGET_DISTANCE_RIGHT), DEFAULT_SPEED)
+    TARGET_DISTANCE_FRONT = 30
+    motor_serial.send_command(DEFAULT_SPEED - (min(0, dist_front - TARGET_DISTANCE_FRONT)),
+                              DEFAULT_SPEED - (dist_right - TARGET_DISTANCE_RIGHT))  # Left - Right motors
 
     # ## LOOP END ## #
 
