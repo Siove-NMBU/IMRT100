@@ -103,13 +103,6 @@ while not motor_serial.shutdown_now:
     else:
         # If there is nothing in front of the robot it continues driving forwards
         drive_robot(FORWARDS, 0.1)
-    # Hugging the right wall until maze completion
-    # DEFAULT_SPEED = DRIVING_SPEED
-    # TARGET_DISTANCE_RIGHT = 30
-    if dist_right > TARGET_DISTANCE_RIGHT:
-        turn_robot_right()
-    else:
-        turn_robot_random_angle()
     
     DEFAULT_SPEED = 100  # DRIVING_SPEED
     TARGET_DISTANCE_RIGHT = 30
