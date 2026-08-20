@@ -91,10 +91,10 @@ while not motor_serial.shutdown_now:
         # There is an obstacle in front of the robot
         # First let's stop the robot for 1 second
         print("Obstacle!")
-        stop_robot(1)
+        stop_robot(0.1)
 
         # Reverse for 0.5 second
-        drive_robot(BACKWARDS, 0.5)
+        drive_robot(BACKWARDS, 0.2)
 
         # Turn random angle // right
         turn_robot_right()
@@ -105,8 +105,8 @@ while not motor_serial.shutdown_now:
         drive_robot(FORWARDS, 0.1)
     
     DEFAULT_SPEED = 100  # DRIVING_SPEED
-    TARGET_DISTANCE_RIGHT = 30
-    TARGET_DISTANCE_FRONT = 50
+    TARGET_DISTANCE_RIGHT = 20
+    TARGET_DISTANCE_FRONT = 40
     OFFSET_FACTOR_R = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_RIGHT)
     OFFSET_FACTOR_F = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_FRONT)
 
