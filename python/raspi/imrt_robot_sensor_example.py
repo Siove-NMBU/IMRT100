@@ -10,7 +10,7 @@ import sys
 # ## Speaker shenanigans
 import RPi.GPIO as GPIO
 
-BUZZ_PIN = 23
+BUZZ_PIN = 16
 DUTY = 10
 
 # BCM pin naming
@@ -99,7 +99,7 @@ while not motor_serial.shutdown_now:
     speed_motor_1 = dist_2 * gain
     speed_motor_2 = dist_1 * gain
 
-    play_beep(p, dist_3*2)  # Min value is 20 Hz
+    play_beep(p, dist_3)  # Min value is 20 Hz
 
     # Send commands to motor
     # Max speed is 400.
