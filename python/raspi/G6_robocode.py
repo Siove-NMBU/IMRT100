@@ -78,7 +78,6 @@ while not motor_serial.shutdown_now:
     dist_left = motor_serial.get_dist_1()
     dist_right = motor_serial.get_dist_2()
     dist_front = motor_serial.get_dist_3()
-    print("Dist left (1):", dist_left, "   Dist center (3):", dist_front, "   Dist right (2):", dist_right)
 
     """# Check if there is an obstacle in the way
     if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
@@ -109,8 +108,14 @@ while not motor_serial.shutdown_now:
     DEFAULT_SPEED = 100  # DRIVING_SPEED
     TARGET_DISTANCE_RIGHT = 30
     TARGET_DISTANCE_FRONT = 50
-    motor_serial.send_command(DEFAULT_SPEED + 3 * (min(0, dist_front - TARGET_DISTANCE_FRONT)),
-                              DEFAULT_SPEED - (dist_right - TARGET_DISTANCE_RIGHT))  # Left - Right motors
+
+    motor_speed_left = DEFAULT_SPEED + 3 * (min(0, dist_front - TARGET_DISTANCE_FRONT))
+    motor_speed_right = DEFAULT_SPEED - (dist_right - TARGET_DISTANCE_RIGHT)
+
+    motor_serial.send_command(motor_speed_left, motor_speed_right)  # Left - Right motors
+
+    print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
+          f'MSL: {motor_speed_left} MSR: {motor_speed_right}')
 
     # ## LOOP END ## #
 
