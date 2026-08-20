@@ -45,6 +45,13 @@ def turn_robot_random_angle():
         motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
         time.sleep(0.10)
 
+def turn_robot_right():
+    direction = RIGHT
+    iterations = random.randint(10, 25)
+
+    for i in range(iterations):
+        motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
+        time.sleep(0.10)
 
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
@@ -79,7 +86,7 @@ while not motor_serial.shutdown_now:
     dist_right = motor_serial.get_dist_2()
     dist_front = motor_serial.get_dist_3()
 
-    """# Check if there is an obstacle in the way
+    # Check if there is an obstacle in the way
     if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
         # There is an obstacle in front of the robot
         # First let's stop the robot for 1 second
@@ -89,22 +96,21 @@ while not motor_serial.shutdown_now:
         # Reverse for 0.5 second
         drive_robot(BACKWARDS, 0.5)
 
-        # Turn random angle
-        turn_robot_random_angle()
+        # Turn random angle // right
+        turn_robot_right()
+        
 
     else:
-        # If there is nothing in front of the robot it continus driving forwards
-        drive_robot(FORWARDS, 0.1)"""
-
-    """
+        # If there is nothing in front of the robot it continues driving forwards
+        drive_robot(FORWARDS, 0.1)
     # Hugging the right wall until maze completion
     # DEFAULT_SPEED = DRIVING_SPEED
     # TARGET_DISTANCE_RIGHT = 30
     if dist_right > TARGET_DISTANCE_RIGHT:
-        turn rightwards
+        turn_robot_right()
     else:
-        turn leftwards
-    """
+        turn_robot_random_angle()
+    
     DEFAULT_SPEED = 100  # DRIVING_SPEED
     TARGET_DISTANCE_RIGHT = 30
     TARGET_DISTANCE_FRONT = 50
