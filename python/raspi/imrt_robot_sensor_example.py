@@ -50,8 +50,8 @@ motor_serial = imrt_robot_serial.IMRTRobotSerial()
 # Open serial port. Exit if serial port cannot be opened
 try:
     motor_serial.connect("/dev/ttyACM0")
-except:
-    print("Could not open port. Is your robot connected?\nExiting program")
+except Exception as e:
+    print(f'Could not open port, {e}. Is your robot connected?\nExiting program')
     sys.exit()
 
 # Start serial receive thread
