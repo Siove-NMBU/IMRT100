@@ -15,7 +15,7 @@ BACKWARDS = -1
 DRIVING_SPEED = 100
 TURNING_SPEED = 100
 STOP_DISTANCE = 25
-
+#hei
 
 def stop_robot(duration):
 
