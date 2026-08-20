@@ -11,7 +11,7 @@ import sys
 import RPi.GPIO as GPIO
 
 BUZZ_PIN = 16
-DUTY = 10
+DUTY = 40
 
 # BCM pin naming
 GPIO.setmode(GPIO.BCM)
@@ -27,7 +27,7 @@ p.start(0)
 
 
 def play_beep(po, freq, duration=0.2, duty=DUTY, single_beep=True):
-    print(f'Trying to play beep at {freq}Hz. Duration {duration}, duty cycle {duty}')
+    print(f'Trying to play beep at {freq}Hz. Duty cycle {duty}')
     po.ChangeDutyCycle(duty)
     po.ChangeFrequency(freq)
     if single_beep:
