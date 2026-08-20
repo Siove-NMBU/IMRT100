@@ -30,8 +30,8 @@ def play_beep(po, freq, duration=0.2, duty=DUTY, single_beep=True):
     print(f'Trying to play beep at {freq}Hz. Duration {duration}, duty cycle {duty}')
     po.ChangeDutyCycle(duty)
     po.ChangeFrequency(freq)
-    time.sleep(duration)
     if single_beep:
+        time.sleep(duration)
         po.ChangeDutyCycle(0)
     # time.sleep(duration / 2)
 
@@ -100,7 +100,7 @@ while not motor_serial.shutdown_now:
     speed_motor_1 = dist_2 * gain
     speed_motor_2 = dist_1 * gain
 
-    play_beep(p, dist_3)  # Min value is 20 Hz
+    play_beep(p, dist_3, single_beep=False)  # Min value is 20 Hz
 
     # Send commands to motor
     # Max speed is 400.
