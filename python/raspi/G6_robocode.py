@@ -12,9 +12,9 @@ LEFT = -1
 RIGHT = 1
 FORWARDS = 1
 BACKWARDS = -1
-DRIVING_SPEED = 100
-TURNING_SPEED = 100
-STOP_DISTANCE = 25
+DRIVING_SPEED = 200
+TURNING_SPEED = 110
+STOP_DISTANCE = 5
 
 
 def stop_robot(duration):
@@ -104,9 +104,9 @@ while not motor_serial.shutdown_now:
         # If there is nothing in front of the robot it continues driving forwards
         drive_robot(FORWARDS, 0.1)
     
-    DEFAULT_SPEED = 100  # DRIVING_SPEED
-    TARGET_DISTANCE_RIGHT = 20
-    TARGET_DISTANCE_FRONT = 40
+    DEFAULT_SPEED = 200  # DRIVING_SPEED
+    TARGET_DISTANCE_RIGHT = 5
+    TARGET_DISTANCE_FRONT = 5
     OFFSET_FACTOR_R = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_RIGHT)
     OFFSET_FACTOR_F = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_FRONT)
 
