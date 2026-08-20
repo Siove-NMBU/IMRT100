@@ -106,12 +106,12 @@ while not motor_serial.shutdown_now:
         turn leftwards
     """
     DEFAULT_SPEED = 100  # DRIVING_SPEED
-    TARGET_DISTANCE_LEFT = 50
-    TARGET_DISTANCE_RIGHT = 50
-    TARGET_DISTANCE_FRONT = 50
+    TARGET_DISTANCE_LEFT = 20
+    TARGET_DISTANCE_RIGHT = 20
+    TARGET_DISTANCE_FRONT = 20
 
-    motor_speed_left = DEFAULT_SPEED - (dist_left - TARGET_DISTANCE_LEFT)
-    motor_speed_right = DEFAULT_SPEED - (dist_right - TARGET_DISTANCE_RIGHT)
+    motor_speed_left = (dist_left - TARGET_DISTANCE_LEFT)
+    motor_speed_right = (dist_right - TARGET_DISTANCE_RIGHT)
 
     motor_serial.send_command(motor_speed_left, motor_speed_right)  # Left - Right motors
 
