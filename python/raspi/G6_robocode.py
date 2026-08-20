@@ -108,9 +108,11 @@ while not motor_serial.shutdown_now:
     DEFAULT_SPEED = 100  # DRIVING_SPEED
     TARGET_DISTANCE_RIGHT = 30
     TARGET_DISTANCE_FRONT = 50
+    OFFSET_FACTOR_R = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_RIGHT)
+    OFFSET_FACTOR_F = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_FRONT)
 
-    motor_speed_left = DEFAULT_SPEED + 3 * (min(0, dist_front - TARGET_DISTANCE_FRONT))
-    motor_speed_right = DEFAULT_SPEED - (dist_right - TARGET_DISTANCE_RIGHT)
+    motor_speed_left = DEFAULT_SPEED + OFFSET_FACTOR_F * (min(0, dist_front - TARGET_DISTANCE_FRONT))
+    motor_speed_right = DEFAULT_SPEED - OFFSET_FACTOR_R * (dist_right - TARGET_DISTANCE_RIGHT)
 
     motor_serial.send_command(motor_speed_left, motor_speed_right)  # Left - Right motors
 
