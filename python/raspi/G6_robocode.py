@@ -98,7 +98,7 @@ while not motor_serial.shutdown_now:
 
         # Turn random angle // right
         # turn_robot_right()
-        # turn_robot_random_angle()
+        turn_robot_random_angle()
         
 
     else:
