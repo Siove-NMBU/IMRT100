@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-BUZZ_PIN = 23
+BUZZ_PIN = 16
 DUTY = 10
 
 c =  [ 32,  65, 131, 262, 523]
@@ -43,7 +43,7 @@ p.ChangeDutyCycle(DUTY)
 p.ChangeFrequency(440)
 time.sleep(3)
 p.ChangeDutyCycle(0)
-time.sleep(HALF/2)
+time.sleep(2)
 
 try:
     # Loop until user terminates program
