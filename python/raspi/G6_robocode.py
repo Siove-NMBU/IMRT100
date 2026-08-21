@@ -105,12 +105,13 @@ while not motor_serial.shutdown_now:
     else:
         turn leftwards
     """
-    DEFAULT_SPEED = 120  # DRIVING_SPEED
+    DEFAULT_SPEED = 110  # DRIVING_SPEED
     TARGET_DISTANCE_LEFT = 30
     TARGET_DISTANCE_RIGHT = 30
     TARGET_DISTANCE_FRONT = 30
     MAX_DIST = 255
-    DRIFT_BIAS = 0.15
+    DRIFT_BIAS = 0.2
+    DIFF_SCALE = 0.5
 
     diff = 0
     dTR = dist_right - TARGET_DISTANCE_RIGHT
@@ -129,8 +130,8 @@ while not motor_serial.shutdown_now:
     diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
 
     # Motor mix
-    motor_mix_left = DEFAULT_SPEED - round(diff)  # - (MAX_DIST // (dist_front + 1))
-    motor_mix_right = DEFAULT_SPEED + round(diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_right = DEFAULT_SPEED + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
 
     motor_serial.send_command(motor_mix_left, motor_mix_right)  # Left - Right motors
 
