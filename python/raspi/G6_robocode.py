@@ -105,18 +105,19 @@ while not motor_serial.shutdown_now:
 
         turn_robot_right(RIGHT, 0.1)
 
+    # Hvis det er ingenting foran sensorene, vil den kjøre rett fram
+    else:
+            drive_robot(FORWARDS, 0.1)
+
     # Hvis venstre sensor kommer nær en vegg vil den justere seg til høyre helt til
     # sensoren ikke slår ut lenger
-    elif dist_left < STOP_DISTANCE:
+    while dist_left < STOP_DISTANCE:
         drive_robot(RIGHT, 0.06)
 
     # Samme gjelder her
-    elif dist_right < STOP_DISTANCE:
+    while dist_right < STOP_DISTANCE:
         drive_robot(LEFT, 0.06)    
 
-    # Hvis det er ingenting foran sensorene, vil den kjøre rett fram
-    else:
-        drive_robot(FORWARDS, 0.1)
 
     """# Check if there is an obstacle in the way
     if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
@@ -139,8 +140,8 @@ while not motor_serial.shutdown_now:
 
 
     DEFAULT_SPEED = 100  # DRIVING_SPEED
-    TARGET_DISTANCE_RIGHT = 20
-    TARGET_DISTANCE_FRONT = 20 # this was at 50
+    TARGET_DISTANCE_RIGHT = 50
+    TARGET_DISTANCE_FRONT = 50 # this was at 50
     OFFSET_FACTOR_R = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_RIGHT)
     OFFSET_FACTOR_F = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_FRONT)
 
