@@ -106,9 +106,9 @@ while not motor_serial.shutdown_now:
         turn leftwards
     """
     DEFAULT_SPEED = 120  # DRIVING_SPEED
-    TARGET_DISTANCE_LEFT = 40
-    TARGET_DISTANCE_RIGHT = 40
-    TARGET_DISTANCE_FRONT = 40
+    TARGET_DISTANCE_LEFT = 30
+    TARGET_DISTANCE_RIGHT = 30
+    TARGET_DISTANCE_FRONT = 30
     MAX_DIST = 255
     DRIFT_BIAS = 0.15
 
