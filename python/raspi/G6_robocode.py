@@ -105,18 +105,37 @@ while not motor_serial.shutdown_now:
     else:
         turn leftwards
     """
-    DEFAULT_SPEED = 100  # DRIVING_SPEED
+    DEFAULT_SPEED = 50  # DRIVING_SPEED
     TARGET_DISTANCE_LEFT = 20
     TARGET_DISTANCE_RIGHT = 20
     TARGET_DISTANCE_FRONT = 20
+    MAX_DIST = 255
+    DRIFT_BIAS = 1
 
-    motor_speed_left = (dist_left - TARGET_DISTANCE_LEFT)
-    motor_speed_right = (dist_right - TARGET_DISTANCE_RIGHT)
+    diff = 0
+    dTR = dist_right - TARGET_DISTANCE_RIGHT
+    dTL = dist_left - TARGET_DISTANCE_LEFT
 
-    motor_serial.send_command(motor_speed_left, motor_speed_right)  # Left - Right motors
+    """
+    PSEUDOCODE
+    Motor input: Default speed +- differential
+    Differential 0 -> Default speed forward. Differential 100 -> Right is 100 more than left
+
+    Motor mix: Distance readings from sensors contribute to final differential.
+        Left side:  Differential -= (min(dist_left - TARGET_DIDTANCE_LEFT), 0)^2
+        Right side: Differential += (min(dist_right - TARGET_DIDTANCE_RIGHT), 0)^2
+    """
+    diff += 0 if (dTR > 0) else -(dist_left - TARGET_DISTANCE_LEFT)**2
+    diff += -DRIFT_BIAS * dist_right if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
+
+    # Motor mix
+    motor_mix_left = DEFAULT_SPEED - diff - (MAX_DIST // (dist_front + 1))
+    motor_mix_right = DEFAULT_SPEED + diff - (MAX_DIST // (dist_front + 1))
+
+    motor_serial.send_command(motor_mix_left, motor_mix_right)  # Left - Right motors
 
     print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
-          f'MSL: {motor_speed_left} MSR: {motor_speed_right}')
+          f'MSL: {motor_mix_left} MSR: {motor_mix_right}')
 
     # ## LOOP END ## #
 
