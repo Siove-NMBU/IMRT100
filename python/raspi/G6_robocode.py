@@ -145,7 +145,7 @@ while not motor_serial.shutdown_now:
     print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
           f'MSL: {motor_mix_left} MSR: {motor_mix_right}')
 
-    motor_serial.send_command(int(motor_mix_left), int(motor_mix_right))  # Left - Right motors
+    motor_serial.send_command(int(round(motor_mix_left)), int(round(motor_mix_right)))  # Left - Right motors
 
     # ## LOOP END ## #
 
