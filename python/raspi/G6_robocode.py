@@ -103,8 +103,6 @@ while not motor_serial.shutdown_now:
     # Roboten vil snu seg når sensoren foran slår ut mest (da kjører den direkte på en vegg)
     if dist_front < dist_left and dist_right:
 
-        drive_robot(BACKWARDS, 0.3)
-
         turn_robot_right(RIGHT, 0.1)
 
     # Hvis venstre sensor kommer nær en vegg vil den justere seg til høyre helt til
