@@ -79,6 +79,7 @@ while not motor_serial.shutdown_now:
     dist_left = motor_serial.get_dist_1()
     dist_right = motor_serial.get_dist_2()
     dist_front = motor_serial.get_dist_3()
+    dist_rear = motor_serial.get_dist_4()
 
     """# Check if there is an obstacle in the way
     if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
@@ -128,6 +129,14 @@ while not motor_serial.shutdown_now:
         Left side:  Differential -= (min(dist_left - TARGET_DIDTANCE_LEFT), 0)^2
         Right side: Differential += (min(dist_right - TARGET_DIDTANCE_RIGHT), 0)^2
     """
+    if dist_front < TARGET_DISTANCE_FRONT:
+        motor_serial.send_command(-50, 50)
+        crnt_t = time.time()
+        while dist_left > TARGET_DISTANCE_FRONT or (time.time() - crnt_t) < 2:
+            dist_left = motor_serial.get_dist_4()
+            print("Spinning to winning")
+        continue
+
     diff += 0 if (dTL > 0) else -(dist_left - TARGET_DISTANCE_LEFT)**2
     diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
     # diff += 0 if dist_front > TARGET_DISTANCE_FRONT else 1 // (abs(dTL - dTR) + 1) * (dTF**2) // 2
