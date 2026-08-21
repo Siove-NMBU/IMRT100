@@ -139,8 +139,8 @@ while not motor_serial.shutdown_now:
     diff += front_bias * (1 - s_f)
 
     # Motor mix
-    motor_mix_left = DEFAULT_SPEED * s_f - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
-    motor_mix_right = DEFAULT_SPEED * s_f + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_left = round(DEFAULT_SPEED * s_f) - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_right = round(DEFAULT_SPEED * s_f) + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
 
     motor_serial.send_command(motor_mix_left, motor_mix_right)  # Left - Right motors
 
