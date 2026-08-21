@@ -130,9 +130,9 @@ while not motor_serial.shutdown_now:
         Right side: Differential += (min(dist_right - TARGET_DIDTANCE_RIGHT), 0)^2
     """
     if dist_front < TARGET_DISTANCE_FRONT:
-        motor_serial.send_command(-50, 50)
         crnt_t = time.time()
         while dist_rear > TARGET_DISTANCE_FRONT and (time.time() - crnt_t) < 2:
+            motor_serial.send_command(-100, 100)
             dist_left = motor_serial.get_dist_4()
             print("Spinning to winning:", time.time() - crnt_t)
         continue
@@ -145,7 +145,7 @@ while not motor_serial.shutdown_now:
     motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
     motor_mix_right = DEFAULT_SPEED + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
 
-    print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
+    print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right, " D_B(4):", dist_rear,
           f'MSL: {motor_mix_left} MSR: {motor_mix_right}')
 
     motor_serial.send_command(int(round(motor_mix_left)), int(round(motor_mix_right)))  # Left - Right motors
