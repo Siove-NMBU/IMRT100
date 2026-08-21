@@ -59,7 +59,7 @@ def turn_robot_left(direction, duration):
     direction = LEFT
     iterations = int(duration * 10)
 
-    for i in range(iterations):
+    for i in range(iterations): 
         motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
         time.sleep(0.10)
     
