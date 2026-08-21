@@ -105,7 +105,7 @@ while not motor_serial.shutdown_now:
     else:
         turn leftwards
     """
-    DEFAULT_SPEED = 200  # DRIVING_SPEED
+    DEFAULT_SPEED = 180  # DRIVING_SPEED
     TARGET_DISTANCE_LEFT = 30
     TARGET_DISTANCE_RIGHT = 30
     TARGET_DISTANCE_FRONT = 30
