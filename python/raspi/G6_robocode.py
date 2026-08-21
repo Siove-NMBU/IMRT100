@@ -13,8 +13,8 @@ RIGHT = 1
 FORWARDS = 1
 BACKWARDS = -1
 DRIVING_SPEED = 100
-TURNING_SPEED = 50
-STOP_DISTANCE = 18 #25
+TURNING_SPEED = 100
+STOP_DISTANCE = 25 #25
 
 
 def stop_robot(duration):
@@ -101,22 +101,22 @@ while not motor_serial.shutdown_now:
 # Et fortapt forsøk på å få roboten til å justere seg i henhold til om det er en forbanna vegg foran den eller ikke
 
     # Roboten vil snu seg når sensoren foran slår ut mest (da kjører den direkte på en vegg)
-    if dist_front < dist_left and dist_right:
+    if dist_front < dist_left and dist_right and STOP_DISTANCE:
 
-        turn_robot_right(RIGHT, 0.1)
+        turn_robot_random_angle(RIGHT, 0.1)
 
     # Hvis det er ingenting foran sensorene, vil den kjøre rett fram
     else:
-            drive_robot(FORWARDS, 0.1)
+        drive_robot(FORWARDS, 0.1)
 
     # Hvis venstre sensor kommer nær en vegg vil den justere seg til høyre helt til
     # sensoren ikke slår ut lenger
     if dist_left < STOP_DISTANCE:
-        drive_robot(RIGHT, 0.06)
+        drive_robot(RIGHT, 1)
 
     # Samme gjelder her
     if dist_right < STOP_DISTANCE:
-        drive_robot(LEFT, 0.06)    
+        drive_robot(LEFT, 1)    
 
 
     """# Check if there is an obstacle in the way
