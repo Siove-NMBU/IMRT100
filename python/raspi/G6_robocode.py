@@ -113,8 +113,8 @@ while not motor_serial.shutdown_now:
     TARGET_DISTANCE_FRONT = 15
     MAX_DIST = 255
     DRIFT_BIAS = 0.2
-    DIFF_SCALE = 0.6
-    E_POW = 1.4
+    DIFF_SCALE = 0.5
+    E_POW = 1.5
 
     diff = 0
     dTR = dist_right - TARGET_DISTANCE_RIGHT
