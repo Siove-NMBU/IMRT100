@@ -126,7 +126,7 @@ while not motor_serial.shutdown_now:
         Right side: Differential += (min(dist_right - TARGET_DIDTANCE_RIGHT), 0)^2
     """
     diff += 0 if (dTL > 0) else -(dist_left - TARGET_DISTANCE_LEFT)**2
-    diff += -DRIFT_BIAS * dist_right if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
+    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
 
     # Motor mix
     motor_mix_left = DEFAULT_SPEED - diff  # - (MAX_DIST // (dist_front + 1))
