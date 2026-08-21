@@ -99,18 +99,24 @@ while not motor_serial.shutdown_now:
 
 
 # Et fortapt forsøk på å få roboten til å justere seg i henhold til om det er en forbanna vegg foran den eller ikke
+
+    # Roboten vil snu seg når sensoren foran slår ut mest (da kjører den direkte på en vegg)
     if dist_front < dist_left and dist_right:
         turn_robot_random_angle()
 
+    # Hvis venstre sensor kommer for litt nær en vegg vil den justere seg mot høyre helt til
+    # sensoren ikke slår ut lenger
     elif dist_left < STOP_DISTANCE:
 
         while dist_left < STOP_DISTANCE:
             drive_robot(RIGHT, 0.1)
 
+    # Samme gjelder her
     elif dist_right < STOP_DISTANCE:
         while dist_right < STOP_DISTANCE:
             drive_robot(LEFT, 0.1)    
 
+    # Hvis det er ingenting foran sensorene vil den kun kjøre fremover
     else:
         drive_robot(FORWARDS, 0.1)
 
