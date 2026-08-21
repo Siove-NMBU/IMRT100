@@ -7,6 +7,7 @@ import signal
 import time
 import sys
 import random
+import numpy as np
 
 LEFT = -1
 RIGHT = 1
@@ -134,11 +135,12 @@ while not motor_serial.shutdown_now:
     # Front sensor introduces turning bias, to deal with dead ends
     FB_SCALE = 1
     front_bias = FB_SCALE * (dist_left - dist_right)
-    diff += front_bias * (1 - (dist_front - TARGET_DISTANCE_FRONT) // (MAX_DIST - TARGET_DISTANCE_FRONT))
+    s_f = np.clip((dist_front - TARGET_DISTANCE_FRONT) / (MAX_DIST - TARGET_DISTANCE_FRONT), 0.0, 1.0)
+    diff += front_bias * (1 - s_f)
 
     # Motor mix
-    motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
-    motor_mix_right = DEFAULT_SPEED + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_left = DEFAULT_SPEED * s_f - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_right = DEFAULT_SPEED * s_f + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
 
     motor_serial.send_command(motor_mix_left, motor_mix_right)  # Left - Right motors
 
