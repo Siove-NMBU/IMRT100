@@ -132,15 +132,9 @@ while not motor_serial.shutdown_now:
     diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
     # diff += 0 if dist_front > TARGET_DISTANCE_FRONT else 1 // (abs(dTL - dTR) + 1) * (dTF**2) // 2
 
-    # Front sensor introduces turning bias, to deal with dead ends
-    FB_SCALE = 1
-    front_bias = FB_SCALE * (dist_left - dist_right)
-    s_f = np.clip((dist_front - TARGET_DISTANCE_FRONT) / (MAX_DIST - TARGET_DISTANCE_FRONT), 0.0, 1.0)
-    diff += front_bias * (1 - s_f)
-
     # Motor mix
-    motor_mix_left = DEFAULT_SPEED * s_f - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
-    motor_mix_right = DEFAULT_SPEED * s_f + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_right = DEFAULT_SPEED + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
 
     print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
           f'MSL: {motor_mix_left} MSR: {motor_mix_right}')
