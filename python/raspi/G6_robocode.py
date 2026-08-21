@@ -154,7 +154,7 @@ while not motor_serial.shutdown_now:
 
 #    print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
 #          f'MSL: {motor_speed_left} MSR: {motor_speed_right}')
-    print("Dist_left:", dist_left, " Dist_front:", dist_front, " Dist_right:", dist_right, f'MSL: {motor_speed_left} MSR: {motor_speed_right}')
+    print("Dist_left:", dist_left, " Dist_front:", dist_front, " Dist_right:", dist_right)
 
     # ## LOOP END ## #
 
