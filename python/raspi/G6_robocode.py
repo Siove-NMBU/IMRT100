@@ -105,13 +105,13 @@ while not motor_serial.shutdown_now:
     else:
         turn leftwards
     """
-    DEFAULT_SPEED = 180  # DRIVING_SPEED
+    DEFAULT_SPEED = 160  # DRIVING_SPEED
     TARGET_DISTANCE_LEFT = 30
     TARGET_DISTANCE_RIGHT = 30
     TARGET_DISTANCE_FRONT = 30
     MAX_DIST = 255
     DRIFT_BIAS = 0.2
-    DIFF_SCALE = 0.4
+    DIFF_SCALE = 0.5
 
     diff = 0
     dTR = dist_right - TARGET_DISTANCE_RIGHT
@@ -129,7 +129,12 @@ while not motor_serial.shutdown_now:
     """
     diff += 0 if (dTL > 0) else -(dist_left - TARGET_DISTANCE_LEFT)**2
     diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
-    #diff += 0 if dist_front > TARGET_DISTANCE_FRONT else 1 // (abs(dTL - dTR) + 1) * (dTF**2) // 2
+    # diff += 0 if dist_front > TARGET_DISTANCE_FRONT else 1 // (abs(dTL - dTR) + 1) * (dTF**2) // 2
+
+    # Front sensor introduces turning bias, to deal with dead ends
+    FB_SCALE = 1
+    front_bias = FB_SCALE * (dist_left - dist_right)
+    diff += front_bias * (1 - (dist_front - TARGET_DISTANCE_FRONT) // (MAX_DIST - TARGET_DISTANCE_FRONT))
 
     # Motor mix
     motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
