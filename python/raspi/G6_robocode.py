@@ -133,7 +133,7 @@ while not motor_serial.shutdown_now:
         crnt_t = time.time()
         while dist_rear > TARGET_DISTANCE_FRONT and (time.time() - crnt_t) < 2:
             motor_serial.send_command(-100, 100)
-            dist_left = motor_serial.get_dist_4()
+            dist_rear = motor_serial.get_dist_4()
             print("Spinning to winning:", time.time() - crnt_t)
         continue
 
