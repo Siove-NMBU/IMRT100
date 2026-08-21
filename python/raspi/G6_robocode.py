@@ -12,9 +12,9 @@ LEFT = -1
 RIGHT = 1
 FORWARDS = 1
 BACKWARDS = -1
-DRIVING_SPEED = 200
+DRIVING_SPEED = 100
 TURNING_SPEED = 100
-STOP_DISTANCE = 10
+STOP_DISTANCE = 40 #25
 
 
 def stop_robot(duration):
@@ -36,7 +36,7 @@ def drive_robot(direction, duration):
         time.sleep(0.10)
 
 
-def turn_robot_random_angle():
+def turn_robot_random_angle(direction, duration):
 
     direction = random.choice([-1, 1])
     iterations = random.randint(10, 25)
@@ -45,13 +45,24 @@ def turn_robot_random_angle():
         motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
         time.sleep(0.10)
 
-def turn_robot_right():
+def turn_robot_right(direction, duration):
+
     direction = RIGHT
-    iterations = random.randint(10, 25)
+    iterations = int(duration * 10)
 
     for i in range(iterations):
         motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
         time.sleep(0.10)
+
+def turn_robot_left(direction, duration):
+
+    direction = LEFT
+    iterations = int(duration * 10)
+
+    for i in range(iterations):
+        motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
+        time.sleep(0.10)
+    
 
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
@@ -86,37 +97,46 @@ while not motor_serial.shutdown_now:
     dist_right = motor_serial.get_dist_2()
     dist_front = motor_serial.get_dist_3()
 
-    # Check if there is an obstacle in the way
+
+# Et fortapt forsøk på å få roboten til å justere seg i henhold til om det er en forbanna vegg foran den eller ikke
+    if dist_front < dist_left and dist_right:
+        turn_robot_random_angle()
+
+    elif dist_left < STOP_DISTANCE:
+
+        while dist_left < STOP_DISTANCE:
+            drive_robot(RIGHT, 0.1)
+
+    elif dist_right < STOP_DISTANCE:
+        while dist_right < STOP_DISTANCE:
+            drive_robot(LEFT, 0.1)    
+
+    else:
+        drive_robot(FORWARDS, 0.1)
+
+    """# Check if there is an obstacle in the way
     if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
         # There is an obstacle in front of the robot
         # First let's stop the robot for 1 second
-        #print("Obstacle!")
-        stop_robot(0.1)
+        print("Obstacle!")
+        stop_robot(1)
 
-        # Reverse for 0.2 second
-        drive_robot(BACKWARDS, 0.2)
+        # Reverse for 0.5 second
+        drive_robot(BACKWARDS, 0.5)
 
-        # Turn random angle // right
-        # turn_robot_right()
+        # Turn random angle
         turn_robot_random_angle()
-        
 
     else:
         # If there is nothing in front of the robot it continues driving forwards
-        drive_robot(FORWARDS, 0.2)
+        drive_robot(FORWARDS, 0.1)"""
 
-    # fine adjusting if something is in front of the sensors
-    if dist_right < STOP_DISTANCE:
-        drive_robot(LEFT)
-    elif dist_left < STOP_DISTANCE:
-        drive_robot(RIGHT)
-    else:
-        drive_robot(FORWARDS, 0.2)
-        
-    
-    DEFAULT_SPEED = 200  # DRIVING_SPEED
-    TARGET_DISTANCE_RIGHT = 15
-    TARGET_DISTANCE_FRONT = 15
+
+
+
+    DEFAULT_SPEED = 100  # DRIVING_SPEED
+    TARGET_DISTANCE_RIGHT = 30
+    TARGET_DISTANCE_FRONT = 30 # this was at 50
     OFFSET_FACTOR_R = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_RIGHT)
     OFFSET_FACTOR_F = 2 * DEFAULT_SPEED * (DEFAULT_SPEED // TARGET_DISTANCE_FRONT)
 
@@ -125,8 +145,9 @@ while not motor_serial.shutdown_now:
 
     motor_serial.send_command(motor_speed_left, motor_speed_right)  # Left - Right motors
 
-    print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
-          f'MSL: {motor_speed_left} MSR: {motor_speed_right}')
+#    print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right,
+#          f'MSL: {motor_speed_left} MSR: {motor_speed_right}')
+    print("Dist_left:", dist_left, " Dist_front:", dist_front, " Dist_right:", dist_right, f'MSL: {motor_speed_left} MSR: {motor_speed_right}')
 
     # ## LOOP END ## #
 
