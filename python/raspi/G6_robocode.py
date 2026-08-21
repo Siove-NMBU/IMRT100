@@ -111,11 +111,11 @@ while not motor_serial.shutdown_now:
 
     # Hvis venstre sensor kommer nær en vegg vil den justere seg til høyre helt til
     # sensoren ikke slår ut lenger
-    while dist_left < STOP_DISTANCE:
+    if dist_left < STOP_DISTANCE:
         drive_robot(RIGHT, 0.06)
 
     # Samme gjelder her
-    while dist_right < STOP_DISTANCE:
+    if dist_right < STOP_DISTANCE:
         drive_robot(LEFT, 0.06)    
 
 
