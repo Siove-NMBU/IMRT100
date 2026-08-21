@@ -101,7 +101,7 @@ while not motor_serial.shutdown_now:
 # Et fortapt forsøk på å få roboten til å justere seg i henhold til om det er en forbanna vegg foran den eller ikke
 
     # Roboten vil snu seg når sensoren foran slår ut mest (da kjører den direkte på en vegg)
-    if dist_front < dist_left and dist_right and STOP_DISTANCE:
+    """if dist_front < dist_left and dist_right and STOP_DISTANCE:
 
         stop_robot(0.5)
 
@@ -118,10 +118,10 @@ while not motor_serial.shutdown_now:
 
     # Samme gjelder her
     if dist_right < STOP_DISTANCE:
-        drive_robot(LEFT, 1)    
+        drive_robot(LEFT, 1)    """
 
 
-    """# Check if there is an obstacle in the way
+    # Check if there is an obstacle in the way
     if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
         # There is an obstacle in front of the robot
         # First let's stop the robot for 1 second
@@ -136,7 +136,7 @@ while not motor_serial.shutdown_now:
 
     else:
         # If there is nothing in front of the robot it continues driving forwards
-        drive_robot(FORWARDS, 0.1)"""
+        drive_robot(FORWARDS, 0.1)
 
 
 
