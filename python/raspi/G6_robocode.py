@@ -105,7 +105,7 @@ while not motor_serial.shutdown_now:
 
         drive_robot(BACKWARDS, 0.3)
 
-        turn_robot_right()
+        turn_robot_right(RIGHT, 0.1)
 
     # Hvis venstre sensor kommer nær en vegg vil den justere seg til høyre helt til
     # sensoren ikke slår ut lenger
