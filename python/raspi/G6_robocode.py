@@ -114,6 +114,7 @@ while not motor_serial.shutdown_now:
     MAX_DIST = 255
     DRIFT_BIAS = 0.2
     DIFF_SCALE = 0.5
+    E_POW = 1.5
 
     diff = 0
     dTR = dist_right - TARGET_DISTANCE_RIGHT
@@ -137,8 +138,8 @@ while not motor_serial.shutdown_now:
             print("Spinning to winning:", round(time.time() - crnt_t, 2), f'Rear: {dist_rear}')
         continue
 
-    diff += 0 if (dTL > 0) else -int(abs(dist_left - TARGET_DISTANCE_LEFT)**1.8)
-    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dist_right - TARGET_DISTANCE_RIGHT)**1.8)
+    diff += 0 if (dTL > 0) else -int(abs(dist_left - TARGET_DISTANCE_LEFT)**E_POW)
+    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dist_right - TARGET_DISTANCE_RIGHT)**E_POW)
     # diff += 0 if dist_front > TARGET_DISTANCE_FRONT else 1 // (abs(dTL - dTR) + 1) * (dTF**2) // 2
 
     # Motor mix
