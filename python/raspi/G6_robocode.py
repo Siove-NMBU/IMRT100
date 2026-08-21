@@ -115,6 +115,7 @@ while not motor_serial.shutdown_now:
     DRIFT_BIAS = 0.2
     DIFF_SCALE = 0.5
     E_POW = 1.5
+    T_TURN = 1
 
     diff = 0
     dTR = dist_right - TARGET_DISTANCE_RIGHT
@@ -132,7 +133,7 @@ while not motor_serial.shutdown_now:
     """
     if dist_front < TARGET_DISTANCE_FRONT:
         crnt_t = time.time()
-        while dist_rear > TARGET_DISTANCE_FRONT and (time.time() - crnt_t) < 2:
+        while dist_rear > TARGET_DISTANCE_FRONT and (time.time() - crnt_t) < T_TURN:
             motor_serial.send_command(-120, 120)
             dist_rear = motor_serial.get_dist_4()
             print("Spinning to winning:", round(time.time() - crnt_t, 2), f'Rear: {dist_rear}')
