@@ -116,6 +116,7 @@ while not motor_serial.shutdown_now:
     diff = 0
     dTR = dist_right - TARGET_DISTANCE_RIGHT
     dTL = dist_left - TARGET_DISTANCE_LEFT
+    dTF = dist_front - TARGET_DISTANCE_FRONT
 
     """
     PSEUDOCODE
@@ -128,7 +129,7 @@ while not motor_serial.shutdown_now:
     """
     diff += 0 if (dTL > 0) else -(dist_left - TARGET_DISTANCE_LEFT)**2
     diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else (dist_right - TARGET_DISTANCE_RIGHT)**2
-    diff += 0 if dist_front > TARGET_DISTANCE_FRONT else -dist_front // 2
+    diff += 0 if dist_front > TARGET_DISTANCE_FRONT else (dTF**2)//2
 
     # Motor mix
     motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
