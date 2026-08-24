@@ -108,7 +108,7 @@ while not motor_serial.shutdown_now:
     TARGET_DISTANCE_RIGHT = 60 # DEFAULT WAS 60
     TARGET_DISTANCE_FRONT = 15 # DEFAULT WAS 15
     MAX_DIST = 255
-    DRIFT_BIAS = 0.15 # DEFAULT WAS 0.2
+    DRIFT_BIAS = 0.3 # DEFAULT WAS 0.2
     DIFF_SCALE = 0.5
     E_POW = 1.5
     T_TURN = 1
