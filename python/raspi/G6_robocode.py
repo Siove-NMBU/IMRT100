@@ -110,7 +110,7 @@ while not motor_serial.shutdown_now:
     MAX_DIST = 255
     DRIFT_BIAS = 0.3 # DEFAULT WAS 0.2
     DIFF_SCALE = 0.5
-    E_POW = 1.9 #1.5
+    E_POW = 1.3 #1.5
     T_TURN = 1
 
     diff = 0
