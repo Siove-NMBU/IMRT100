@@ -8,7 +8,7 @@ import time
 import sys
 import random
 import numpy as np
-from playsound import ps
+from playsound import playsound
 import threading
 
 LEFT = -1
@@ -52,7 +52,7 @@ def turn_robot_random_angle():
 
 
 def play_sound(path):
-    ps(path)
+    playsound(path)
 
 
 # We want our program to send commands at 10 Hz (10 commands per second)
