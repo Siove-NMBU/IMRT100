@@ -3,7 +3,6 @@
 import struct
 import threading
 import time
-import soundtest
 
 
 class IMRTxbox:
@@ -254,20 +253,10 @@ def main():
             ax_rx = controller.get_right_x()
             ax_ry = controller.get_right_y()
 
-            rt = controller.get_right_trigger()
-
-            # Consider RT pressed when more than 50% down
-            rt_pressed = rt > 0.5
-
-            # Only play sound when RT FIRST becomes pressed
-            if rt_pressed and not rt_was_pressed:
-                soundtest.say_FAHHH()
-
-            rt_was_pressed = rt_pressed
+            
 
             print("a: {}, b: {}, x: {}, y: {}, lx: {:+.2f}, ly: {:+.2f}, rx: {:+.2f}, ry: {:+.2f}".format(but_a, but_b, but_x, but_y, ax_lx, ax_ly, ax_rx, ax_ry), end='\r')
 
-            time.sleep(0.01)
             
 
     except KeyboardInterrupt:
