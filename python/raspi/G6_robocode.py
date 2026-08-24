@@ -8,6 +8,8 @@ import time
 import sys
 import random
 import numpy as np
+from playsound import ps
+import threading
 
 LEFT = -1
 RIGHT = 1
@@ -45,6 +47,10 @@ def turn_robot_random_angle():
     for i in range(iterations):
         motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
         time.sleep(0.10)
+
+
+def play_sound(path):
+    ps(path)
 
 
 # We want our program to send commands at 10 Hz (10 commands per second)
@@ -152,6 +158,10 @@ while not motor_serial.shutdown_now:
 
     motor_serial.send_command(int(round(motor_mix_left)), int(round(motor_mix_right)))  # Left - Right motors
 
+    # Play sound when rear sensor is close
+    t = threading.Thread(target=play_sound,
+                         args=("/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-2-no.mp3",))
+    t.start()
     # ## LOOP END ## #
 
 # motor_serial has told us that its time to exit
