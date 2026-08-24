@@ -22,6 +22,8 @@ TURNING_SPEED = 100
 STOP_DISTANCE = 25
 
 soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav"
+sound_FAH = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH_mp3"
+
 
 
 def stop_robot(duration):
@@ -53,13 +55,9 @@ def turn_robot_random_angle():
         time.sleep(0.10)
 
 
-def play_sound(path):
-    playsound(path)
-
-
 thrd = None
 pygame.mixer.init(frequency=44100)   # init once at program start
-sound = pygame.mixer.Sound(soundpath)  # preload into RAM
+sound = pygame.mixer.Sound(sound_FAH)  # preload into RAM
 
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
