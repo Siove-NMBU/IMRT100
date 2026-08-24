@@ -10,6 +10,8 @@ import random
 import numpy as np
 from playsound import playsound
 import threading
+import pygame
+
 
 LEFT = -1
 RIGHT = 1
@@ -19,7 +21,7 @@ DRIVING_SPEED = 100
 TURNING_SPEED = 100
 STOP_DISTANCE = 25
 
-soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-2-no.mp3"
+soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav"
 
 
 def stop_robot(duration):
@@ -56,6 +58,8 @@ def play_sound(path):
 
 
 thrd = None
+pygame.mixer.init(frequency=44100)   # init once at program start
+sound = pygame.mixer.Sound(soundpath)  # preload into RAM
 
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
@@ -93,9 +97,11 @@ while not motor_serial.shutdown_now:
 
     # Play sound when rear sensor is close
     if dist_rear < 20:
-        if thrd is None or not thrd.is_alive():
+        """if thrd is None or not thrd.is_alive():
             thrd = threading.Thread(target=play_sound, args=(soundpath,))
-            thrd.start()
+            thrd.start()"""
+        if not pygame.mixer.get_busy():
+            sound.play()
 
     DEFAULT_SPEED = 160  # DRIVING_SPEED
     TARGET_DISTANCE_LEFT = 60
