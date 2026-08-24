@@ -55,6 +55,8 @@ def play_sound(path):
     playsound(path)
 
 
+thrd = threading.Thread(target=play_sound, args=(soundpath,))
+
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
 execution_period = 1. / execution_frequency  # seconds
@@ -162,9 +164,7 @@ while not motor_serial.shutdown_now:
 
     # Play sound when rear sensor is close
     if dist_rear < 20:
-        t = threading.Thread(target=play_sound,
-                             args=(soundpath,))
-        t.start()
+        thrd.start()
     # ## LOOP END ## #
 
 # motor_serial has told us that its time to exit
