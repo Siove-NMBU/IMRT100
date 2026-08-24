@@ -91,32 +91,12 @@ while not motor_serial.shutdown_now:
     dist_front = motor_serial.get_dist_3()
     dist_rear = motor_serial.get_dist_4()
 
-    """# Check if there is an obstacle in the way
-    if dist_left < STOP_DISTANCE or dist_right < STOP_DISTANCE:
-        # There is an obstacle in front of the robot
-        # First let's stop the robot for 1 second
-        print("Obstacle!")
-        stop_robot(1)
+    # Play sound when rear sensor is close
+    if dist_rear < 20:
+        if thrd is None or not thrd.is_alive():
+            thrd = threading.Thread(target=play_sound, args=(soundpath,))
+            thrd.start()
 
-        # Reverse for 0.5 second
-        drive_robot(BACKWARDS, 0.5)
-
-        # Turn random angle
-        turn_robot_random_angle()
-
-    else:
-        # If there is nothing in front of the robot it continus driving forwards
-        drive_robot(FORWARDS, 0.1)"""
-
-    """
-    # Hugging the right wall until maze completion
-    # DEFAULT_SPEED = DRIVING_SPEED
-    # TARGET_DISTANCE_RIGHT = 30
-    if dist_right > TARGET_DISTANCE_RIGHT:
-        turn rightwards
-    else:
-        turn leftwards
-    """
     DEFAULT_SPEED = 160  # DRIVING_SPEED
     TARGET_DISTANCE_LEFT = 60
     TARGET_DISTANCE_RIGHT = 60
@@ -162,11 +142,6 @@ while not motor_serial.shutdown_now:
 
     motor_serial.send_command(int(round(motor_mix_left)), int(round(motor_mix_right)))  # Left - Right motors
 
-    # Play sound when rear sensor is close
-    if dist_rear < 20:
-        if thrd is None or not thrd.is_alive():
-            thrd = threading.Thread(target=play_sound, args=(soundpath,))
-            thrd.start()
     # ## LOOP END ## #
 
 # motor_serial has told us that its time to exit
