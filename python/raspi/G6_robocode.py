@@ -164,7 +164,8 @@ while not motor_serial.shutdown_now:
 
     # Play sound when rear sensor is close
     if dist_rear < 20:
-        thrd.start()
+        if thrd is None or not thrd.is_alive():
+            thrd.start()
     # ## LOOP END ## #
 
 # motor_serial has told us that its time to exit
