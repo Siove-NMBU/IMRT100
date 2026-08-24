@@ -36,7 +36,7 @@ def drive_robot(direction, duration):
         time.sleep(0.10)
 
 
-def turn_robot_random_angle(direction, duration):
+def turn_robot_random_angle():
 
     direction = random.choice([-1, 1])
     iterations = random.randint(10, 25)
@@ -44,7 +44,7 @@ def turn_robot_random_angle(direction, duration):
     for i in range(iterations):
         motor_serial.send_command(TURNING_SPEED * direction, -TURNING_SPEED * direction)
         time.sleep(0.10)
-
+    
 def turn_robot_right(direction, duration):
 
     direction = RIGHT
