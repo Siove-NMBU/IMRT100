@@ -22,7 +22,7 @@ TURNING_SPEED = 100
 STOP_DISTANCE = 25
 
 soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav"
-sound_FAH = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH_mp3"
+sound_FAH = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.mp3"
 
 
 
