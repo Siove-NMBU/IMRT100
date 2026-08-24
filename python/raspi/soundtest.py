@@ -1,27 +1,23 @@
 import pygame
-import time
 import os
 
-
+# Initialize pygame mixer once
 pygame.mixer.init()
 
-path = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav"
+PATH = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav"
 
-print("File exists:", os.path.exists(path))
-
-if os.path.exists(path):
-    print("Playing:", path)
-    
-    # Load and play the sound
-    sound = pygame.mixer.Sound(path)
-    sound.play()
-    
-    # Keep the script running while the sound plays
-    while pygame.mixer.get_busy():
-        time.sleep(0.1)
-        
-    print("Finished")
+# Load the sound once
+if os.path.exists(PATH):
+    print("Sound file found:", PATH)
+    sound = pygame.mixer.Sound(PATH)
 else:
-    print("Error: File path is incorrect.")
+    print("ERROR: Sound file not found:", PATH)
+    sound = None
 
 
+def say_FAHHH():
+    """Play the FAHHH sound."""
+    
+    if sound is not None:
+        print("FAHHH!")
+        sound.play()

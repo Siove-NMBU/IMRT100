@@ -3,6 +3,7 @@
 import struct
 import threading
 import time
+import soundtest
 
 
 class IMRTxbox:
@@ -241,8 +242,13 @@ class IMRTxbox:
 def main():
     controller = IMRTxbox()
 
+    # Used to detect a new RT press
+    rt_was_pressed = False
+
     try:
-        while(True):
+        while True:
+
+            # Read controller inputs
             but_a = controller.get_a()
             but_b = controller.get_b()
             but_x = controller.get_x()
@@ -253,9 +259,40 @@ def main():
             ax_rx = controller.get_right_x()
             ax_ry = controller.get_right_y()
 
-            print("a: {}, b: {}, x: {}, y: {}, lx: {:+.2f}, ly: {:+.2f}, rx: {:+.2f}, ry: {:+.2f}".format(but_a, but_b, but_x, but_y, ax_lx, ax_ly, ax_rx, ax_ry), end='\r')
+            # Read RIGHT TRIGGER
+            rt = controller.get_right_trigger()
 
-            time.sleep(0.1)
+            # RT is considered pressed when above 50%
+            rt_pressed = rt > 0.5
+
+            # Detect a NEW press
+            if rt_pressed and not rt_was_pressed:
+                soundtest.say_FAHHH()
+
+            # Remember current RT state
+            rt_was_pressed = rt_pressed
+
+            # Print controller values
+            print(
+                "a: {}, b: {}, x: {}, y: {}, "
+                "lx: {:+.2f}, ly: {:+.2f}, "
+                "rx: {:+.2f}, ry: {:+.2f}, "
+                "rt: {:+.2f}".format(
+                    but_a,
+                    but_b,
+                    but_x,
+                    but_y,
+                    ax_lx,
+                    ax_ly,
+                    ax_rx,
+                    ax_ry,
+                    rt
+                ),
+                end="\r"
+            )
+
+            # Small delay so we don't hammer the CPU
+            time.sleep(0.01)
 
     except KeyboardInterrupt:
         print("\nTerminated by user")
@@ -265,9 +302,5 @@ def main():
         print("Exiting program")
 
 
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
