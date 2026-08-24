@@ -7,5 +7,6 @@ def play(path):
     playsound(path)
 
 
-t = threading.Thread(target=play, args=("C://Users//sindr//Music//Rnd Samples//terrible_drink_II.wav",))
+# t = threading.Thread(target=play, args=("C://Users//sindr//Music//Rnd Samples//terrible_drink_II.wav",))
+t = threading.Thread(target=play, args=("python/raspi/soundfiles/FAH.mp3",))
 t.start()
