@@ -5,7 +5,7 @@ import os
 
 pygame.mixer.init()
 
-path = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav"
+path = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav"
 
 print("File exists:", os.path.exists(path))
 
