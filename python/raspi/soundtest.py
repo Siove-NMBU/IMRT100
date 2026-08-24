@@ -9,5 +9,7 @@ def play(path):
 
 
 # t = threading.Thread(target=play, args=("C://Users//sindr//Music//Rnd Samples//terrible_drink_II.wav",))
-t = threading.Thread(target=play, args=(path),)
-t.start()
+# t = threading.Thread(target=play, args=(path),)
+# t.start()
+
+play(path)
