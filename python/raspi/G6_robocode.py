@@ -112,10 +112,6 @@ while not motor_serial.shutdown_now:
         if not pygame.mixer.get_busy():
             sound.play()
 
-    if dist_front < 5:
-        if not pygame.mixer.get_busy():
-            sound_objects[3].play()
-
     DEFAULT_SPEED = 200  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
     TARGET_DISTANCE_LEFT = 60 # DEFAULT WAS 60
     TARGET_DISTANCE_RIGHT = 60 # DEFAULT WAS 60
@@ -146,6 +142,7 @@ while not motor_serial.shutdown_now:
             motor_serial.send_command(-120, 120)
             dist_rear = motor_serial.get_dist_4()
             print("Spinning to winning:", round(time.time() - crnt_t, 2), f'Rear: {dist_rear}')
+            sound_objects[3].play()
         continue
 
     diff += 0 if (dTL > 0) else -int(abs(dist_left - TARGET_DISTANCE_LEFT)**E_POW)
