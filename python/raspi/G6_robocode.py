@@ -93,7 +93,7 @@ while not motor_serial.shutdown_now:
 
     # Makes it so a random sound (from a list) plays every time the rear sensor activates
     i = random.randint(1, 2)
-    sound = list_sounds[i - 1]
+    sound = sound_objects[i - 1]
 
 
     # Get and print readings from distance sensors
