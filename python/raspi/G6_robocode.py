@@ -63,10 +63,6 @@ def turn_robot_random_angle():
         time.sleep(0.10)
 
 
-thrd = None
-pygame.mixer.init(frequency=44100)   # init once at program start
-sound = pygame.mixer.Sound(list_sounds)  # preload into RAM
-
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
 execution_period = 1. / execution_frequency  # seconds
