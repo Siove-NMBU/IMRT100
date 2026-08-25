@@ -112,6 +112,10 @@ while not motor_serial.shutdown_now:
         if not pygame.mixer.get_busy():
             sound.play()
 
+    if dist_front < 5:
+        if not pygame.mixer.get_busy():
+            sound_objects[3].play()
+
     DEFAULT_SPEED = 200  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
     TARGET_DISTANCE_LEFT = 60 # DEFAULT WAS 60
     TARGET_DISTANCE_RIGHT = 60 # DEFAULT WAS 60
