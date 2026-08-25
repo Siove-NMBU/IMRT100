@@ -21,8 +21,10 @@ DRIVING_SPEED = 100
 TURNING_SPEED = 100
 STOP_DISTANCE = 25
 
-soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav"
+sound1 = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav"
 sound_FAH = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav"
+
+list_sounds = [sound1, sound_FAH]
 
 
 
@@ -86,6 +88,11 @@ print("Entering loop. Ctrl+c to terminate")
 while not motor_serial.shutdown_now:
 
     # ## LOOP START ## #
+
+    # Makes it so a random sound (from a list) plays every time the rear sensor activates
+    i = random.randint(1, 2)
+    sound = list_sounds[i]
+
 
     # Get and print readings from distance sensors
     dist_left = motor_serial.get_dist_1()
