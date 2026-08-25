@@ -25,7 +25,9 @@ STOP_DISTANCE = 25
 sound_objects = []
 list_sounds = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav",
                 "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav"]
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/WINDOWS_XP_ERROR.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"]
 
 pygame.mixer.init(frequency=44100)   # init once at program start
 
