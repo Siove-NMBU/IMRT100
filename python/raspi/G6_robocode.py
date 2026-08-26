@@ -10,7 +10,7 @@ import random
 import numpy as np
 from playsound import playsound
 import pygame
-from math import exp
+from math import exp, copysign
 
 
 LEFT = -1
@@ -102,6 +102,10 @@ E_POW = 1.5  # 1.5
 T_TURN = 1
 SPIN_SPEED = 120
 
+prev_dist_front = 0
+prev_dist_right = 0
+prev_dist_left = 0
+
 print("Entering loop. Ctrl+c to terminate")
 while not motor_serial.shutdown_now:
 
@@ -116,6 +120,14 @@ while not motor_serial.shutdown_now:
     dist_right = motor_serial.get_dist_2()
     dist_front = motor_serial.get_dist_3()
     dist_rear = motor_serial.get_dist_4()
+
+    """
+    # Try to limit spikes in sensor readings
+    MAX_DIST_DELTA = 20
+    delta_dist_left = dist_left - prev_dist_left
+    if abs(delta_dist_left) > MAX_DIST_DELTA:
+        dist_left = prev_dist_left + copysign(MAX_DIST_DELTA, delta_dist_left)
+    """
 
     # Play sound when rear sensor is close
     if dist_rear < 20:
@@ -138,11 +150,11 @@ while not motor_serial.shutdown_now:
         continue
 
     # Calculate motor mix differentials for the iteration
-    diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
-
     sig_steepness = 0.07
     sig_midpoint = 40
     sig_max = 200
+
+    diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
     diff += -(sig_max + 5) // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 5 if (dTR > 0) else int(abs(dTR)**E_POW)
     # diff += round(-DRIFT_BIAS * dist_right)  # Krenging til høyre
 
@@ -156,9 +168,11 @@ while not motor_serial.shutdown_now:
 
     motor_serial.send_command(int(round(motor_mix_left)), int(round(motor_mix_right)))  # Left - Right motors
 
+    prev_dist_front = dist_front
+    prev_dist_right = dist_right
+    prev_dist_left = dist_left
+
     # ## LOOP END ## #
 
-# motor_serial has told us that its time to exit
-# we have now exited the loop
 # It's only polite to say goodbye
 print("Goodbye")
