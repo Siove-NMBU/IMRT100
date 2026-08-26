@@ -1,5 +1,6 @@
 import sys
 import time
+import random as rnd
 
 import imrt_robot_serial
 import imrt_xbox
@@ -45,9 +46,19 @@ NO_ECHO_CM = 255
 
 soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/Roar.wav"
 
-thrd = None
 pygame.mixer.init(frequency=44100)
 sound = pygame.mixer.Sound(soundpath)
+
+aoe_death_sounds = []
+death_sounds_path = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/WINDOWS_XP_ERROR.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"]
+
+for soundpath in death_sounds_path:
+    aoe_death_sounds.append(pygame.mixer.Sound(soundpath))  # preload into RAM
+
 
 
 def clamp(value, minimum, maximum):
@@ -72,6 +83,8 @@ def read_buttons(controller):
         "Y": controller.get_y(),
         "LB": controller.get_left_bumper(),
         "RB": controller.get_right_bumper(),
+        "L_trig": controller.get_left_trigger(),
+        "R_trig": controller.get_right_trigger()
     }
 
 
@@ -183,6 +196,7 @@ def main():
             start_time = time.monotonic()
             buttons = read_buttons(controller)
 
+            # Play roar
             if just_pressed(buttons["Y"], previous["Y"]):
                 print("button pressed")
                 if not pygame.mixer.get_busy():
@@ -203,12 +217,17 @@ def main():
                 mode = "RASK"
                 speed_limit = SPEED_RACE
 
+            if just_pressed(buttons["L_trig"], previous["L_trig"]):
+                print("Left trigger pressed")
+                if not pygame.mixer.get_busy():
+                    aoe_death_sounds[rnd.randint(0, len(aoe_death_sounds))].play()
+
             if just_pressed(buttons["LB"], previous["LB"]):
                 guard_enabled = not guard_enabled
                 print("\nSensorvern:", "PÅ" if guard_enabled else "AV")
 
             throttle = FORWARD_SIGN * shape_axis(controller.get_left_y())
-            turn = TURN_SIGN * shape_axis(controller.get_right_x())
+            turn = TURN_SIGN * shape_axis(controller.get_right_y())
 
             sensors = read_sensors(robot)
             warning = ""
