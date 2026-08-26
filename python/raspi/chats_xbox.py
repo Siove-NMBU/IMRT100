@@ -44,7 +44,7 @@ REAR_STOP_CM = 15
 REAR_SLOW_CM = 35
 NO_ECHO_CM = 255
 
-soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/Roar.wav"
+soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/t-rex-roar.wav"
 
 pygame.mixer.init(frequency=44100)
 sound = pygame.mixer.Sound(soundpath)
@@ -56,8 +56,8 @@ death_sounds_path = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/rasp
                      "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2_death4.wav",
                      "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2_death6.wav"]
 
-for soundpath in death_sounds_path:
-    aoe_death_sounds.append(pygame.mixer.Sound(soundpath))  # preload into RAM
+for path in death_sounds_path:
+    aoe_death_sounds.append(pygame.mixer.Sound(path))  # preload into RAM
 
 
 def clamp(value, minimum, maximum):
@@ -205,6 +205,8 @@ def main():
                 armed = True
                 mode = "PRESISJON"
                 speed_limit = SPEED_PRECISION
+                if not pygame.mixer.get_busy():
+                    sound.play()
 
             elif just_pressed(buttons["A"], previous["A"]):
                 armed = True
@@ -216,17 +218,18 @@ def main():
                 mode = "RASK"
                 speed_limit = SPEED_RACE
 
-            if just_pressed(buttons["L_trig"], previous["L_trig"]):
-                print("Left trigger pressed")
+            if just_pressed(buttons["LB"], previous["LB"]):
+                print("LB pressed")
                 if not pygame.mixer.get_busy():
                     aoe_death_sounds[rnd.randint(0, len(aoe_death_sounds) - 1)].play()
 
+            """
             if just_pressed(buttons["LB"], previous["LB"]):
                 guard_enabled = not guard_enabled
                 print("\nSensorvern:", "PÅ" if guard_enabled else "AV")
-
+            """
             throttle = FORWARD_SIGN * shape_axis(controller.get_left_y())
-            turn = TURN_SIGN * shape_axis(controller.get_right_y())
+            turn = TURN_SIGN * shape_axis(controller.get_right_x())
 
             sensors = read_sensors(robot)
             warning = ""
