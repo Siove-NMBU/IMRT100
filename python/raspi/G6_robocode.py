@@ -91,7 +91,7 @@ if not pygame.mixer.get_busy():
     boot_sound.play()
 
 # # SYSTEM CONSTANTS # #
-DEFAULT_SPEED = 200  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
+DEFAULT_SPEED = 160  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
 TARGET_DISTANCE_LEFT = 60  # DEFAULT WAS 60
 TARGET_DISTANCE_RIGHT = 60  # DEFAULT WAS 60
 TARGET_DISTANCE_FRONT = 15  # DEFAULT WAS 15
@@ -121,13 +121,13 @@ while not motor_serial.shutdown_now:
     dist_front = motor_serial.get_dist_3()
     dist_rear = motor_serial.get_dist_4()
 
-    """
     # Try to limit spikes in sensor readings
     MAX_DIST_DELTA = 20
     delta_dist_left = dist_left - prev_dist_left
     if abs(delta_dist_left) > MAX_DIST_DELTA:
-        dist_left = prev_dist_left + copysign(MAX_DIST_DELTA, delta_dist_left)
-
+        sound_objects[4].play()
+        # dist_left = prev_dist_left + copysign(MAX_DIST_DELTA, delta_dist_left)
+    """
     delta_dist_right = dist_right - prev_dist_right
     if abs(delta_dist_right) > MAX_DIST_DELTA:
         dist_right = prev_dist_right + copysign(MAX_DIST_DELTA, delta_dist_right)
@@ -154,17 +154,19 @@ while not motor_serial.shutdown_now:
             motor_serial.send_command(-SPIN_SPEED, SPIN_SPEED)
             dist_rear = motor_serial.get_dist_4()
             print("Spinning to winning:", round(time.time() - crnt_t, 2), f'Rear: {dist_rear}')
-            sound_objects[3].play()
+            sound_objects[1].play()
         continue
 
     # Calculate motor mix differentials for the iteration
+    diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
+    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dTR)**E_POW)
+
+    """
     sig_steepness = 0.05
     sig_midpoint = 40
     sig_max = 200
-
-    diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
-    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dTR)**E_POW)
     # -(sig_max + 5) // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 20
+    """
     # diff += round(-DRIFT_BIAS * dist_right)  # Krenging til høyre
 
     # Motor mix
