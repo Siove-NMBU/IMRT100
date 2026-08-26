@@ -50,11 +50,11 @@ pygame.mixer.init(frequency=44100)
 sound = pygame.mixer.Sound(soundpath)
 
 aoe_death_sounds = []
-death_sounds_path = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/WINDOWS_XP_ERROR.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"]
+death_sounds_path = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2_death1.wav",
+                     "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2_death2.wav",
+                     "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2_death3.wav",
+                     "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2_death4.wav",
+                     "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2_death6.wav"]
 
 for soundpath in death_sounds_path:
     aoe_death_sounds.append(pygame.mixer.Sound(soundpath))  # preload into RAM
