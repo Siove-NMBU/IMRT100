@@ -127,6 +127,14 @@ while not motor_serial.shutdown_now:
     delta_dist_left = dist_left - prev_dist_left
     if abs(delta_dist_left) > MAX_DIST_DELTA:
         dist_left = prev_dist_left + copysign(MAX_DIST_DELTA, delta_dist_left)
+
+    delta_dist_right = dist_right - prev_dist_right
+    if abs(delta_dist_right) > MAX_DIST_DELTA:
+        dist_right = prev_dist_right + copysign(MAX_DIST_DELTA, delta_dist_right)
+
+    delta_dist_front = dist_front - prev_dist_front
+    if abs(delta_dist_front) > MAX_DIST_DELTA:
+        dist_front = prev_dist_front + copysign(MAX_DIST_DELTA, delta_dist_front)
     """
 
     # Play sound when rear sensor is close
