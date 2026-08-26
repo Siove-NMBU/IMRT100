@@ -7,7 +7,6 @@ import imrt_xbox
 import pygame
 
 
-
 # ---------- Innstillinger ----------
 SERIAL_PORT = "/dev/ttyACM0"
 LOOP_HZ = 20
@@ -44,7 +43,7 @@ REAR_STOP_CM = 15
 REAR_SLOW_CM = 35
 NO_ECHO_CM = 255
 
-soundpath = "/home/student/marco/IMRT100-/mp3 files/Roar.wav"
+soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"
 
 thrd = None
 pygame.mixer.init(frequency=44100)
@@ -161,8 +160,8 @@ def main():
 
     robot.run()
 
-    armed = False
-    mode = "STOPPET"
+    armed = True  # False
+    mode = "NORMAL"
     speed_limit = SPEED_NORMAL
     guard_enabled = SENSOR_GUARD_DEFAULT
 
@@ -184,15 +183,10 @@ def main():
             start_time = time.monotonic()
             buttons = read_buttons(controller)
 
-            if just_pressed(buttons["RB"], previous["RB"]):
+            if just_pressed(buttons["Y"], previous["Y"]):
                 print("button pressed")
                 if not pygame.mixer.get_busy():
                     sound.play()
-
-            # B har alltid høyest prioritet.
-            if buttons["B"]:
-                armed = False
-                mode = "STOPPET"
 
             elif just_pressed(buttons["X"], previous["X"]):
                 armed = True
@@ -204,7 +198,7 @@ def main():
                 mode = "NORMAL"
                 speed_limit = SPEED_NORMAL
 
-            elif just_pressed(buttons["Y"], previous["Y"]):
+            elif just_pressed(buttons["B"], previous["B"]):
                 armed = True
                 mode = "RASK"
                 speed_limit = SPEED_RACE
