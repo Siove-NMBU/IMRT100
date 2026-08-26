@@ -20,7 +20,18 @@ DRIVING_SPEED = 100
 TURNING_SPEED = 100
 STOP_DISTANCE = 25
 
-soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav"
+
+sound_objects = []
+list_sounds = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/WINDOWS_XP_ERROR.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"]
+
+pygame.mixer.init(frequency=44100)   # init once at program start
+
+for soundpaths in list_sounds:
+    sound_objects.append(pygame.mixer.Sound(soundpaths))  # preload into RAM
 
 
 def stop_robot(duration):
@@ -52,14 +63,6 @@ def turn_robot_random_angle():
         time.sleep(0.10)
 
 
-def play_sound(path):
-    playsound(path)
-
-
-# Setup for playing sound, given by Copilot
-pygame.mixer.init(frequency=44100)   # init once at program start
-sound_no = pygame.mixer.Sound(soundpath)  # preload into RAM
-
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
 execution_period = 1. / execution_frequency  # seconds
@@ -88,6 +91,10 @@ while not motor_serial.shutdown_now:
 
     # ## LOOP START ## #
 
+    # Makes it so a random sound (from a list) plays every time the rear sensor activates
+    i = random.randint(1, len(sound_objects))
+    sound = sound_objects[i - 1]
+
     # Get and print readings from distance sensors
     dist_left = motor_serial.get_dist_1()
     dist_right = motor_serial.get_dist_2()
@@ -97,16 +104,16 @@ while not motor_serial.shutdown_now:
     # Play sound when rear sensor is close
     if dist_rear < 20:
         if not pygame.mixer.get_busy():
-            sound_no.play()
+            sound_objects[0].play()
 
-    DEFAULT_SPEED = 160  # DRIVING_SPEED
-    TARGET_DISTANCE_LEFT = 60
-    TARGET_DISTANCE_RIGHT = 60
-    TARGET_DISTANCE_FRONT = 15
+    DEFAULT_SPEED = 200  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
+    TARGET_DISTANCE_LEFT = 60  # DEFAULT WAS 60
+    TARGET_DISTANCE_RIGHT = 60  # DEFAULT WAS 60
+    TARGET_DISTANCE_FRONT = 15  # DEFAULT WAS 15
     MAX_DIST = 255
-    DRIFT_BIAS = 0.2
+    DRIFT_BIAS = 0.25  # DEFAULT WAS 0.2 -- 0.25 SEEMS TO WORK BETTER
     DIFF_SCALE = 0.5
-    E_POW = 1.5
+    E_POW = 1.5  # 1.5
     T_TURN = 1
 
     diff = 0
@@ -120,6 +127,7 @@ while not motor_serial.shutdown_now:
             motor_serial.send_command(-120, 120)
             dist_rear = motor_serial.get_dist_4()
             print("Spinning to winning:", round(time.time() - crnt_t, 2), f'Rear: {dist_rear}')
+            sound_objects[3].play()
         continue
 
     diff += 0 if (dTL > 0) else -int(abs(dist_left - TARGET_DISTANCE_LEFT)**E_POW)

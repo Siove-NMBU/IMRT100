@@ -253,9 +253,11 @@ def main():
             ax_rx = controller.get_right_x()
             ax_ry = controller.get_right_y()
 
+            
+
             print("a: {}, b: {}, x: {}, y: {}, lx: {:+.2f}, ly: {:+.2f}, rx: {:+.2f}, ry: {:+.2f}".format(but_a, but_b, but_x, but_y, ax_lx, ax_ly, ax_rx, ax_ry), end='\r')
 
-            time.sleep(0.1)
+            
 
     except KeyboardInterrupt:
         print("\nTerminated by user")
