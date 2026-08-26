@@ -92,8 +92,8 @@ if not pygame.mixer.get_busy():
 
 # # SYSTEM CONSTANTS # #
 DEFAULT_SPEED = 200  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
-TARGET_DISTANCE_LEFT = 60  # DEFAULT WAS 60
-TARGET_DISTANCE_RIGHT = 60  # DEFAULT WAS 60
+TARGET_DISTANCE_LEFT = 50  # DEFAULT WAS 60
+TARGET_DISTANCE_RIGHT = 50  # DEFAULT WAS 60
 TARGET_DISTANCE_FRONT = 15  # DEFAULT WAS 15
 MAX_DIST = 255
 DRIFT_BIAS = 0.25  # DEFAULT WAS 0.2 -- 0.25 SEEMS TO WORK BETTER
@@ -158,12 +158,12 @@ while not motor_serial.shutdown_now:
         continue
 
     # Calculate motor mix differentials for the iteration
-    sig_steepness = 0.07
+    sig_steepness = 0.05
     sig_midpoint = 40
     sig_max = 200
 
     diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
-    diff += -(sig_max + 5) // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 5 if (dTR > 0) else int(abs(dTR)**E_POW)
+    diff += -(sig_max + 5) // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 20 if (dTR > 0) else int(abs(dTR)**E_POW)
     # diff += round(-DRIFT_BIAS * dist_right)  # Krenging til høyre
 
     # Motor mix
