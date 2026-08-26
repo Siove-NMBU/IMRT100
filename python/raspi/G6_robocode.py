@@ -163,7 +163,8 @@ while not motor_serial.shutdown_now:
     sig_max = 200
 
     diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
-    diff += -(sig_max + 5) // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 20 if (dTR > 0) else int(abs(dTR)**E_POW)
+    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dTR)**E_POW)
+    # -(sig_max + 5) // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 20
     # diff += round(-DRIFT_BIAS * dist_right)  # Krenging til høyre
 
     # Motor mix
