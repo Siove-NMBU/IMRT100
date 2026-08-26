@@ -9,7 +9,6 @@ import sys
 import random
 import numpy as np
 from playsound import playsound
-import threading
 import pygame
 
 
@@ -57,9 +56,9 @@ def play_sound(path):
     playsound(path)
 
 
-thrd = None
+# Setup for playing sound, given by Copilot
 pygame.mixer.init(frequency=44100)   # init once at program start
-sound = pygame.mixer.Sound(soundpath)  # preload into RAM
+sound_no = pygame.mixer.Sound(soundpath)  # preload into RAM
 
 # We want our program to send commands at 10 Hz (10 commands per second)
 execution_frequency = 10  # Hz
@@ -97,11 +96,8 @@ while not motor_serial.shutdown_now:
 
     # Play sound when rear sensor is close
     if dist_rear < 20:
-        """if thrd is None or not thrd.is_alive():
-            thrd = threading.Thread(target=play_sound, args=(soundpath,))
-            thrd.start()"""
         if not pygame.mixer.get_busy():
-            sound.play()
+            sound_no.play()
 
     DEFAULT_SPEED = 160  # DRIVING_SPEED
     TARGET_DISTANCE_LEFT = 60
@@ -118,15 +114,6 @@ while not motor_serial.shutdown_now:
     dTL = dist_left - TARGET_DISTANCE_LEFT
     dTF = dist_front - TARGET_DISTANCE_FRONT
 
-    """
-    PSEUDOCODE
-    Motor input: Default speed +- differential
-    Differential 0 -> Default speed forward. Differential 100 -> Right is 100 more than left
-
-    Motor mix: Distance readings from sensors contribute to final differential.
-        Left side:  Differential -= (min(dist_left - TARGET_DIDTANCE_LEFT), 0)^2
-        Right side: Differential += (min(dist_right - TARGET_DIDTANCE_RIGHT), 0)^2
-    """
     if dist_front < TARGET_DISTANCE_FRONT:
         crnt_t = time.time()
         while dist_rear > TARGET_DISTANCE_FRONT and (time.time() - crnt_t) < T_TURN:
@@ -137,7 +124,6 @@ while not motor_serial.shutdown_now:
 
     diff += 0 if (dTL > 0) else -int(abs(dist_left - TARGET_DISTANCE_LEFT)**E_POW)
     diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dist_right - TARGET_DISTANCE_RIGHT)**E_POW)
-    # diff += 0 if dist_front > TARGET_DISTANCE_FRONT else 1 // (abs(dTL - dTR) + 1) * (dTF**2) // 2
 
     # Motor mix
     motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
