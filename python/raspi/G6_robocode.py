@@ -21,19 +21,6 @@ TURNING_SPEED = 100
 STOP_DISTANCE = 25
 
 
-sound_objects = []
-list_sounds = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/WINDOWS_XP_ERROR.wav",
-                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"]
-
-pygame.mixer.init(frequency=44100)   # init once at program start
-
-for soundpaths in list_sounds:
-    sound_objects.append(pygame.mixer.Sound(soundpaths))  # preload into RAM
-
-
 def stop_robot(duration):
 
     iterations = int(duration * 10)
@@ -83,14 +70,37 @@ except Exception as e:
 # Start serial receive thread
 motor_serial.run()
 
+sound_objects = []
+list_sounds = ["/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/aoe2-no.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/FAH.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/horrible_drink.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/WINDOWS_XP_ERROR.wav",
+                "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"]
+
+pygame.mixer.init(frequency=44100)   # init once at program start
+
+for soundpaths in list_sounds:
+    sound_objects.append(pygame.mixer.Sound(soundpaths))  # preload into RAM
+
 # Boot sound
-boot_sound = pygame.mixer.Sound("/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/bring-it-on-siege.mp3")
+boot_sound = pygame.mixer.Sound(
+    "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/bring-it-on-siege.mp3"
+)
 if not pygame.mixer.get_busy():
     boot_sound.play()
 
-# Now we will enter a loop that will keep looping until the program terminates
-# The motor_serial object will inform us when it's time to exit the program
-# (say if the program is terminated by the user)
+# # SYSTEM CONSTANTS # #
+DEFAULT_SPEED = 200  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
+TARGET_DISTANCE_LEFT = 60  # DEFAULT WAS 60
+TARGET_DISTANCE_RIGHT = 60  # DEFAULT WAS 60
+TARGET_DISTANCE_FRONT = 15  # DEFAULT WAS 15
+MAX_DIST = 255
+DRIFT_BIAS = 0.25  # DEFAULT WAS 0.2 -- 0.25 SEEMS TO WORK BETTER
+DIFF_SCALE = 0.5
+E_POW = 1.5  # 1.5
+T_TURN = 1
+SPIN_SPEED = 120
+
 print("Entering loop. Ctrl+c to terminate")
 while not motor_serial.shutdown_now:
 
@@ -111,39 +121,32 @@ while not motor_serial.shutdown_now:
         if not pygame.mixer.get_busy():
             sound_objects[0].play()
 
-    DEFAULT_SPEED = 200  # DRIVING_SPEED -- DEFAULT WAS 160 -- 200 WORKS EVEN BETTER
-    TARGET_DISTANCE_LEFT = 60  # DEFAULT WAS 60
-    TARGET_DISTANCE_RIGHT = 60  # DEFAULT WAS 60
-    TARGET_DISTANCE_FRONT = 15  # DEFAULT WAS 15
-    MAX_DIST = 255
-    DRIFT_BIAS = 0.25  # DEFAULT WAS 0.2 -- 0.25 SEEMS TO WORK BETTER
-    DIFF_SCALE = 0.5
-    E_POW = 1.5  # 1.5
-    T_TURN = 1
-
     diff = 0
     dTR = dist_right - TARGET_DISTANCE_RIGHT
     dTL = dist_left - TARGET_DISTANCE_LEFT
     dTF = dist_front - TARGET_DISTANCE_FRONT
 
+    # If too close to obstacle in front, turn away for a bit
     if dist_front < TARGET_DISTANCE_FRONT:
         crnt_t = time.time()
         while dist_rear > TARGET_DISTANCE_FRONT and (time.time() - crnt_t) < T_TURN:
-            motor_serial.send_command(-120, 120)
+            motor_serial.send_command(-SPIN_SPEED, SPIN_SPEED)
             dist_rear = motor_serial.get_dist_4()
             print("Spinning to winning:", round(time.time() - crnt_t, 2), f'Rear: {dist_rear}')
             sound_objects[3].play()
         continue
 
-    diff += 0 if (dTL > 0) else -int(abs(dist_left - TARGET_DISTANCE_LEFT)**E_POW)
-    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dist_right - TARGET_DISTANCE_RIGHT)**E_POW)
+    # Calculate motor mix differentials for the iteration
+    diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
+    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dTR)**E_POW)
 
     # Motor mix
-    motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
-    motor_mix_right = DEFAULT_SPEED + round(DIFF_SCALE * diff)  # - (MAX_DIST // (dist_front + 1))
+    motor_mix_left = DEFAULT_SPEED - round(DIFF_SCALE * diff)
+    motor_mix_right = DEFAULT_SPEED + round(DIFF_SCALE * diff)
 
     print("D_L(1):", dist_left, " D_C(3):", dist_front, " D_R(2):", dist_right, " D_B(4):", dist_rear,
-          f'MSL: {motor_mix_left} MSR: {motor_mix_right}')
+          f'MSL: {motor_mix_left} MSR: {motor_mix_right}\n',
+          f'dTL: {dTL} dTF: {dTF} dTR: {dTR}, scld diff: {DIFF_SCALE * diff}')
 
     motor_serial.send_command(int(round(motor_mix_left)), int(round(motor_mix_right)))  # Left - Right motors
 
