@@ -205,8 +205,6 @@ def main():
                 armed = True
                 mode = "PRESISJON"
                 speed_limit = SPEED_PRECISION
-                if not pygame.mixer.get_busy():
-                    sound.play()
 
             elif just_pressed(buttons["A"], previous["A"]):
                 armed = True
