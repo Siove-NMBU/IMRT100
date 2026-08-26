@@ -43,7 +43,7 @@ REAR_STOP_CM = 15
 REAR_SLOW_CM = 35
 NO_ECHO_CM = 255
 
-soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/ERRORSOUND.wav"
+soundpath = "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/Roar.wav"
 
 thrd = None
 pygame.mixer.init(frequency=44100)
