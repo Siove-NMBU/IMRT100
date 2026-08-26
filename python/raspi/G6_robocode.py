@@ -10,6 +10,7 @@ import random
 import numpy as np
 from playsound import playsound
 import pygame
+from math import exp
 
 
 LEFT = -1
@@ -138,7 +139,11 @@ while not motor_serial.shutdown_now:
 
     # Calculate motor mix differentials for the iteration
     diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
-    diff += -0.8 * dist_right if (dTR > 0) else int(abs(dTR)**E_POW)
+
+    sig_steepness = 0.09
+    sig_midpoint = 40
+    sig_max = 200
+    diff += sig_max + 5 // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 5 if (dTR > 0) else int(abs(dTR)**E_POW)
     # diff += round(-DRIFT_BIAS * dist_right)  # Krenging til høyre
 
     # Motor mix
