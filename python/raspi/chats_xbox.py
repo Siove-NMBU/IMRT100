@@ -60,7 +60,6 @@ for soundpath in death_sounds_path:
     aoe_death_sounds.append(pygame.mixer.Sound(soundpath))  # preload into RAM
 
 
-
 def clamp(value, minimum, maximum):
     return max(minimum, min(maximum, value))
 
@@ -220,7 +219,7 @@ def main():
             if just_pressed(buttons["L_trig"], previous["L_trig"]):
                 print("Left trigger pressed")
                 if not pygame.mixer.get_busy():
-                    aoe_death_sounds[rnd.randint(0, len(aoe_death_sounds))].play()
+                    aoe_death_sounds[rnd.randint(0, len(aoe_death_sounds) - 1)].play()
 
             if just_pressed(buttons["LB"], previous["LB"]):
                 guard_enabled = not guard_enabled
