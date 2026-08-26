@@ -83,6 +83,11 @@ except Exception as e:
 # Start serial receive thread
 motor_serial.run()
 
+# Boot sound
+boot_sound = pygame.mixer.Sound("/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/bring-it-on-siege.mp3")
+if not pygame.mixer.get_busy():
+    boot_sound.play()
+
 # Now we will enter a loop that will keep looping until the program terminates
 # The motor_serial object will inform us when it's time to exit the program
 # (say if the program is terminated by the user)
