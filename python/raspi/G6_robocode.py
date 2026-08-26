@@ -140,7 +140,7 @@ while not motor_serial.shutdown_now:
     # Calculate motor mix differentials for the iteration
     diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
 
-    sig_steepness = 0.09
+    sig_steepness = 0.07
     sig_midpoint = 40
     sig_max = 200
     diff += -(sig_max + 5) // (1 + exp(-sig_steepness * (dTR - sig_midpoint))) - 5 if (dTR > 0) else int(abs(dTR)**E_POW)
