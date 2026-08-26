@@ -84,7 +84,7 @@ for soundpaths in list_sounds:
 
 # Boot sound
 boot_sound = pygame.mixer.Sound(
-    "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/bring-it-on-siege.mp3"
+    "/home/student/Desktop/Link to RoboCode/IMRT100/python/raspi/soundfiles/bring-it-on-seige.wav"
 )
 if not pygame.mixer.get_busy():
     boot_sound.play()
