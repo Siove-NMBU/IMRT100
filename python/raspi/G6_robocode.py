@@ -138,7 +138,7 @@ while not motor_serial.shutdown_now:
 
     # Calculate motor mix differentials for the iteration
     diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
-    diff += -0.6 * dist_right if (dTR > 0) else int(abs(dTR)**E_POW)
+    diff += -0.8 * dist_right if (dTR > 0) else int(abs(dTR)**E_POW)
     # diff += round(-DRIFT_BIAS * dist_right)  # Krenging til høyre
 
     # Motor mix
