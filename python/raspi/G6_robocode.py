@@ -121,12 +121,12 @@ while not motor_serial.shutdown_now:
     dist_front = motor_serial.get_dist_3()
     dist_rear = motor_serial.get_dist_4()
 
-    # Try to limit spikes in sensor readings
+    """# Try to limit spikes in sensor readings
     MAX_DIST_DELTA = 20
     delta_dist_left = dist_left - prev_dist_left
     if abs(delta_dist_left) > MAX_DIST_DELTA:
         sound_objects[4].play()
-        # dist_left = prev_dist_left + copysign(MAX_DIST_DELTA, delta_dist_left)
+        # dist_left = prev_dist_left + copysign(MAX_DIST_DELTA, delta_dist_left)"""
     """
     delta_dist_right = dist_right - prev_dist_right
     if abs(delta_dist_right) > MAX_DIST_DELTA:
