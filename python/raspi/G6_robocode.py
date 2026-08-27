@@ -151,15 +151,15 @@ while not motor_serial.shutdown_now:
     if dist_front < TARGET_DISTANCE_FRONT:
         crnt_t = time.time()
         while dist_rear > TARGET_DISTANCE_FRONT and (time.time() - crnt_t) < T_TURN:
-            motor_serial.send_command(-SPIN_SPEED, SPIN_SPEED)
+            motor_serial.send_command(SPIN_SPEED, -SPIN_SPEED)
             dist_rear = motor_serial.get_dist_4()
             print("Spinning to winning:", round(time.time() - crnt_t, 2), f'Rear: {dist_rear}')
             sound_objects[1].play()
         continue
 
     # Calculate motor mix differentials for the iteration
-    diff += 0 if (dTL > 0) else -int(abs(dTL)**E_POW)
-    diff += round(-DRIFT_BIAS * dist_right) if (dTR > 0) else int(abs(dTR)**E_POW)
+    diff += -round(-DRIFT_BIAS * dist_left) if (dTL > 0) else -int(abs(dTL)**E_POW)
+    diff += 0 if (dTR > 0) else int(abs(dTR)**E_POW)
 
     """
     sig_steepness = 0.05
